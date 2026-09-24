@@ -646,3 +646,42 @@ READY / NOT RUN
 P0.1:
 BLOCKED
 ```
+
+
+## 15. Deferred architecture decision after P0.0 smoke
+
+Durable decision file:
+
+```text
+VoxFlux/Creator/decision-2026-09-24-post-smoke-path-module-refactor.md
+```
+
+Agreed re-entry rule:
+
+```text
+Immediately after:
+P0.0 Run 1 PASS
+AND
+P0.0 Run 2 PASS
+AND
+durable CRITIC-VERDICT-P0.0-smoke.md
+
+return to the path-module refactor decision before starting broader P0.1 work.
+```
+
+Agreed working structure:
+
+```text
+core/paths/
+├── __init__.py
+├── layout.py   -> Layout
+├── resolver.py -> Resolver
+├── manager.py  -> Manager
+└── factory.py  -> Factory
+```
+
+Project naming convention:
+- one primary class per file;
+- prefer one-word file and class names where practical;
+- package context carries domain meaning;
+- do not modify accepted `698d033...` before smoke closure.
