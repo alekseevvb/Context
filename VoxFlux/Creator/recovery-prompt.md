@@ -25,7 +25,7 @@ VoxFlux/Creator/
 
 ```text
 1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-24-p0-candidate2-awaiting-critic.md
+2. VoxFlux/Creator/checkpoint-2026-09-24-p0-candidate2-ready-merged-next-p047.md
 3. VoxFlux/Creator/recovery-prompt.md
 ```
 
@@ -46,7 +46,7 @@ phase-0-path-contract
 
 ```text
 VoxFluxSTT/Genesis
-bdc0c5683816fdcd45e696e24feba1e6612412dc
+698d033b0bac1161ed393958ee1e97ca9f70f829
 
 P0.0 Candidate.2
 branch:
@@ -114,29 +114,32 @@ AND
 User UAT PASS
 ```
 
+Critic verdict Candidate.2:
+
+```text
+READY
+file: CRITIC-VERDICT-P0.0-Candidate.2.md
+Drive ID: 1tiLW6otGyD8UDVk6v9hAMobkSDa06ELO
+```
+
+Candidate.2 уже fast-forward merged в Genesis.
+
 Текущий frontier:
 
 ```text
-NEXT-006:
-получить независимый verdict Критика по P0.0 Candidate.2.
-```
-
-До verdict `Critic READY` строго запрещено:
-
-```text
-- merge Candidate.2 в Genesis;
-- P0-47 Drive deployment sync;
-- Colab smoke;
-- переход к P0.1.
-```
-
-После `Critic READY` порядок строго такой:
-
-```text
-1. P0-47: hash-verified sync exact accepted Candidate.2 -> Drive deployment.
+NEXT-007:
+1. P0-47: hash-verified sync exact accepted Candidate.2/Genesis -> Drive deployment.
 2. Короткий behavior-preserving P0.0 smoke по UAT-Phase0.md.
 3. Только после smoke PASS перейти к P0.1.
 4. Полный Phase-0 UAT выполнять только после P0.1-P0.3.
+```
+
+Правило durable verdict:
+
+```text
+Каждый verdict Критика публикуется в review-папке кандидата
+как CRITIC-VERDICT-<candidate>.md.
+Chat-only verdict не считается durable state для Creator.
 ```
 
 Если live `Context/main-way`, `VoxFluxSTT/Genesis` или feature branch уже продвинулись дальше сохранённых SHA, **не откатывайся**. Сначала восстанови этот checkpoint как minimum known state, затем полностью прочитай новые durable context/evidence и используй более новый live frontier.
@@ -157,4 +160,4 @@ UAT status
 следующее разрешённое действие
 ```
 
-И остановись перед любым write/merge/sync, если новый verdict Критика ещё не передан.
+Перед любым write/sync снова сверь live HEAD. Merge Candidate.2 уже выполнен; следующее разрешённое действие — P0-47 sync.
