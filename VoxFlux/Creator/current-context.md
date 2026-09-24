@@ -1951,3 +1951,40 @@ pins design blob:
 This is now the single publication target. Do not edit the design or publisher again before Critic verdict unless a blocking execution defect is discovered.
 
 Drive freeze remains in force except for the owner-run publisher itself.
+
+
+## 31. Publisher Drive upload bridge failure; no Drive mutation
+
+Attempted to place the exact immutable publisher:
+
+```text
+Infrastructure/Runtime/Colab/2026.09.25/
+01. PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+```
+
+from Git commit:
+
+```text
+3a2c38d0d659901cd726f6f7da6a289539e4b6ae
+```
+
+Git blob:
+
+```text
+6af0824d7fd205e19f0d679fd1eb8a4c771a9b7d
+```
+
+Both file-bridge upload attempts failed closed with:
+
+```text
+container_session_expired
+```
+
+No Drive file was created; target folder remained empty.
+
+Do not retry through ad hoc Drive writes before Critic verdict.
+Fallback is owner opening/running the exact Git notebook in Colab.
+After run, Creator verifies Review publication and hashes on Drive.
+
+Git browser URL observed:
+https://github.com/alekseevvb/VoxFluxSTT/blob/3a2c38d0d659901cd726f6f7da6a289539e4b6ae/Infrastructure/Runtime/Colab/2026.09.25/01.%20PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
