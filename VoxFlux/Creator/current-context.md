@@ -1571,3 +1571,112 @@ legacy root archival
 
 Next action:
 user runs the Drive launcher and returns its complete output; Creator then reads split DRY RUN evidence and prepares the Critic handoff.
+
+
+## 26. Drive target layout v2 — final structure candidate
+
+Critic accepted the new model with conditions and requested the last structural review round.
+
+Fixed root:
+
+```text
+/content/drive/MyDrive/VoxFlux/
+```
+
+Design document rewritten:
+
+```text
+repo:
+alekseevvb/VoxFluxSTT
+
+branch:
+drive-layout-design
+
+file:
+Infrastructure/Documentation/md/DRIVE-TARGET-LAYOUT.md
+
+design commit:
+3bf6eddea6f924e85efcf4c859373d61e5c150fc
+
+Git blob:
+20bacbab1ea3543b913e75d7065a554d0009984e
+```
+
+v2 contract includes:
+- full tracked-file mirror of the entire VoxFluxSTT repo;
+- Git tracking state defines Class A, not folder lists;
+- Class B only for untracked files under approved runtime/data roots;
+- unexpected untracked file outside approved roots => fail closed;
+- root IDENTITY.json is reserved sync metadata;
+- all-tree exact-commit sync, including Class-A deletion when removed from Git;
+- Class-B files never touched by normal sync;
+- Message vs Review separation;
+- verdict canonical location: Review/<candidate>/CRITIC-VERDICT.md;
+- immutable message protocol with UTC filenames and Reply-To;
+- Creator private durable context remains only in Context/VoxFlux/Creator;
+- Critic Drive context at AI/Critic/Context/CRITIC-STATE.md;
+- no AI/Roadmap; roadmap canonical at Infrastructure/Documentation/md/ROADMAP.md;
+- no AI/Transfer; transfer notebooks canonical at Infrastructure/Runtime/Transfer;
+- UAT split: Runtime/UAT protocols Class A, Runtime/UAT/Data Class B;
+- sibling-name uniqueness invariant;
+- Whisper ordering: move legacy weight folder first, then full mirror writes .gitkeep into same folder;
+- same principle for Parakeet/Input/Output;
+- C1 fate for every Applications top-level legacy object;
+- Applications/VoxFluxSTT is historical review, not legacy deployment;
+- C2 Drive ID preservation before/after required;
+- C4 old notebook quarantine is first APPLY mutation;
+- AI/Context -> target AI role tree must be a separate reviewed Git candidate because path code/tests are affected;
+- Phase-0 boundary: v2 verdict -> one Git tree candidate -> DRY-RUN-002 -> APPLY -> P0.1.
+
+Obsolete:
+
+```text
+DRY-RUN-001
+DO NOT RUN
+```
+
+Review publisher created:
+
+```text
+Git path:
+Infrastructure/Runtime/Transfer/PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+
+publisher commit:
+602cc0f45e00fbab1aa475621ae102209b9e460b
+```
+
+Publisher pins design commit:
+
+```text
+3bf6eddea6f924e85efcf4c859373d61e5c150fc
+```
+
+and expected design blob:
+
+```text
+20bacbab1ea3543b913e75d7065a554d0009984e
+```
+
+It writes review-only publication under the existing pre-migration Review surface:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Review/
+Architecture/Drive-Layout-v2/
+3bf6eddea6f924e85efcf4c859373d61e5c150fc/
+```
+
+Files:
+- DRIVE-TARGET-LAYOUT.md
+- MANIFEST.json
+- SHA256SUMS
+
+Runtime mutations = 0.
+Future MyDrive/VoxFlux mutations = 0.
+
+Next:
+1. user runs PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb;
+2. Creator verifies Drive readback/hashes;
+3. Critic gives final structure verdict;
+4. only then build one Git candidate for AI tree + Runtime/UAT;
+5. DRY-RUN-002 -> APPLY -> P0.1.
