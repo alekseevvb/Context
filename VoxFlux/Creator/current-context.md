@@ -760,3 +760,72 @@ reference formatter SHA-256:
 `c12d31fbee23635e239d0f8d6f36211d7e8ab0d633a616881b7de2353cddf893`.
 
 Do not implement these changes before P0.0 smoke closes.
+
+
+## 18. P0.0 smoke Creator PASS / Critic verdict pending
+
+Run 2 final evidence:
+
+```text
+VoxFlux/Creator/evidence/p0-smoke-run2-2026-09-24.md
+
+Drive:
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/
+smoke/RUN-2-EVIDENCE.md
+
+Drive ID:
+1tVUWHUoFH8jQ5sir9oOyCeEhk8PxXldk
+```
+
+Creator aggregate smoke result:
+
+```text
+VoxFlux/Creator/evidence/p0-smoke-creator-result-2026-09-24.md
+
+Drive:
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/
+smoke/SMOKE-RESULT.md
+
+Drive ID:
+14yfatMN7CcS1ziPffoJFb8W4LtsZbHmO
+```
+
+Result:
+
+```text
+Run 1:
+PASS
+
+Run 2:
+PASS
+
+Run 2 no-redownload:
+PASS
+model initialization line present
+1.42G download progress absent
+medium.pt Drive object unchanged while later SRT was written
+
+unexpected duplicate Parakeet directory:
+NONE
+
+P0.2 preliminary observation after Run 2:
+"Продолжение следует" total count = 0
+first five minutes = 0
+
+P0.0 SMOKE CREATOR RESULT:
+PASS
+
+CRITIC-VERDICT-P0.0-smoke.md:
+PENDING
+```
+
+P0.1 remains blocked until the durable Critic smoke verdict.
+
+Post-smoke requirements file now also contains R8:
+structured lifecycle logging for every executable notebook stage using stable
+stage IDs such as BOOT/PATHS/DEPS/DEVICE/MODEL/DISCOVER/RUN/FINALIZE/SHUTDOWN.
+Every executable stage must end in PASS or FAIL with timestamp and duration.
+This is to be implemented through the same centralized Linux-boot-style
+console/logger design recorded in R6, not through independent ad-hoc print calls.
