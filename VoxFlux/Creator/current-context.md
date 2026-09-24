@@ -829,3 +829,52 @@ stage IDs such as BOOT/PATHS/DEPS/DEVICE/MODEL/DISCOVER/RUN/FINALIZE/SHUTDOWN.
 Every executable stage must end in PASS or FAIL with timestamp and duration.
 This is to be implemented through the same centralized Linux-boot-style
 console/logger design recorded in R6, not through independent ad-hoc print calls.
+
+
+## 19. Durable P0.0 smoke verdict and P0.1 opening
+
+Durable Critic verdict:
+
+```text
+file:
+CRITIC-VERDICT-P0.0-smoke.md
+
+Drive ID:
+1wZ9WrJFpb9vpicyGFflbMCjBJcU-NXcI
+
+verdict:
+PASS
+
+genesis:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+result:
+P0.0 CLOSED
+P0.1 UNBLOCKED
+```
+
+Corrected P0.2 runtime facts from Critic review:
+- first five minutes of `AN-V01-part-001.mp3` contain real speech from about 00:30;
+- the old large-v3 run replaced real speech with hallucinated text, rather than merely filling silence;
+- ground truth for P0.2 must therefore come from listening, not assumed non-speech;
+- the new SRT has a gap from approximately 00:03:55.9 to 00:04:25.9 that must be checked against audio;
+- identical-input Run 1/Run 2 produced 138 vs 129 segments, so P0.2 criteria must use tolerance-based metrics rather than exact segment counts.
+
+Open non-blocking findings carried into the first P0.1 working branch:
+- P0-F-001: narrow PATH-15 allowlist + mutation test;
+- P0-F-002: remove dead exclude_prefixes.
+
+Current code working branch:
+
+```text
+phase-0-p01-cache-path-cleanup
+
+base:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+draft PR:
+#4
+
+first change-set:
+two-class path package + P0-F-001/002
+```
