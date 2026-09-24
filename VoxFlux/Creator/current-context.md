@@ -1246,3 +1246,82 @@ IMPLEMENTED. First decide the canonical-source/generation direction.
 
 No Drive sync, model migration, Models/pip deletion, or Genesis merge is
 authorized from this WIP state.
+
+
+## 23. Process reset — Drive layout first, then one consolidated P0.1 candidate
+
+Critic feedback accepted.
+
+Historical P0.1 PRs:
+
+```text
+PR #4 Candidate.1:
+CLOSED / SUPERSEDED
+
+PR #5 Candidate.2:
+CLOSED / SUPERSEDED WIP
+
+PR #6 Candidate.3:
+CLOSED / SUPERSEDED WIP
+```
+
+No current P0.1 review candidate exists.
+
+The useful requirements retained from the WIP branches are:
+- final route names: `WHISPER` and `PARAKEET`;
+- future Routes model uses parent names, not numeric indexes;
+- no compatibility aliases in the final consolidated change-set;
+- P0.1 cache fix remains explicit `download_root`;
+- model migration and Drive restructuring are one operation.
+
+New order:
+
+```text
+1. approve target Drive layout;
+2. publish target-layout document + roadmap to Critic through pinned transfer notebook;
+3. build one migration notebook with DRY RUN + APPLY;
+4. build one consolidated P0.1 candidate;
+5. independent Critic review once;
+6. migration -> code sync -> smoke, with no notebook run between migration and sync.
+```
+
+Target Drive design branch:
+
+```text
+branch:
+drive-layout-design
+
+source-doc commit:
+52db2ef7c1b2c1cb171006083dac16b50f3bbc5d
+
+transfer-notebook commit:
+8235c55ea7d6fda93b1b4a9cea4912737e68011e
+```
+
+Git documents:
+
+```text
+Infrastructure/Documentation/md/DRIVE-TARGET-LAYOUT.md
+Infrastructure/Documentation/md/ROADMAP.md
+```
+
+Transfer notebook:
+
+```text
+Infrastructure/Runtime/Transfer/PUBLISH-DRIVE-LAYOUT-001.ipynb
+```
+
+Notebook pins exact source commit:
+`52db2ef7c1b2c1cb171006083dac16b50f3bbc5d`.
+
+Authorized Drive write roots for this notebook only:
+
+```text
+Applications/VoxFluxSTT/Infrastructure/Environments/AI/Review/
+Applications/VoxFluxSTT/Infrastructure/Environments/AI/Roadmap/
+```
+
+It has no authorized write path to Input, Output, Models, runtime libraries, UAT or backups.
+
+Next action:
+user runs the exact-commit transfer notebook in Colab with a `GITHUB_TOKEN` secret.
