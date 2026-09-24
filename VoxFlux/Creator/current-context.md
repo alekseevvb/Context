@@ -1,6 +1,6 @@
 # VoxFlux — Creator current context
 
-**Saved:** 2026-09-24 post-Critic-READY / post-merge  
+**Saved:** 2026-09-24 post-P0-47 PASS / smoke pending  
 **Role:** Creator / Творец  
 **Language:** Russian  
 **Context repository:** `alekseevvb/Context`  
@@ -53,7 +53,7 @@ message:
 fix(context): preserve tree alignment across directory renames
 ```
 
-**Critic verdict:** READY for Candidate.2. Merge guard is lifted and Candidate.2 has been fast-forwarded into Genesis. Current guard: P0.1 remains forbidden until P0-47 hash-verified Drive sync and P0.0 smoke PASS.
+**Critic verdict:** READY for Candidate.2. Candidate.2 is fast-forwarded into Genesis. **P0-47 Drive deployment sync is now PASS.** Current guard: P0.1 remains forbidden until P0.0 smoke PASS and durable smoke verdict.
 
 ---
 
@@ -383,12 +383,13 @@ Current completed next actions:
 Current pending:
 
 ```text
-NEXT-007 OPEN:
-perform P0-47 hash-verified exact accepted Candidate.2/Genesis -> Drive sync,
-including Drive rename Parackeet -> Parakeet and Auxilary -> Auxiliary,
-without touching Input, Output, or model weights;
-then run short P0.0 smoke using UAT-Phase0.md.
-Only after smoke PASS move to P0.1.
+NEXT-007 OPEN / PARTIAL:
+P0-47 hash-verified exact accepted Candidate.2/Genesis -> Drive sync: PASS.
+Drive renames Parackeet -> Parakeet and Auxilary -> Auxiliary: PASS.
+17/17 synchronized surfaces raw-byte SHA-256 match exact CI source.
+Protected runtime surfaces preserved.
+P0.0 smoke: NOT RUN.
+Only after smoke PASS + durable Critic smoke verdict move to P0.1.
 
 NEXT-008 BLOCKED:
 After P0.1-P0.3:
@@ -451,8 +452,8 @@ Phase-0 UAT checks include:
 4. Candidate.1 is NOT READY and historical.
 5. Candidate.2 is the only current P0.0 review candidate.
 6. Candidate.2 Critic verdict is READY and the exact accepted commit is already merged by fast-forward into Genesis.
-7. Current next operation is P0-47 hash-verified Drive deployment sync; P0.1 is still forbidden until P0.0 smoke PASS.
-8. After P0-47 sync, run the short P0.0 smoke.
+7. P0-47 hash-verified Drive deployment sync is PASS; P0.1 is still forbidden until P0.0 smoke PASS.
+8. Current next operation is the short P0.0 smoke using the published smoke protocol.
 9. Full Phase-0 UAT waits for P0.1-P0.3.
 10. A phase closes only with two signatures: Critic READY + User UAT PASS.
 11. Keep roadmap and Context checkpoint synchronized with every frontier change.
@@ -480,11 +481,92 @@ If live Git/Drive has advanced after this checkpoint, do **not** roll back. Use 
 Execute NEXT-007:
 
 ```text
-P0-47 DRIVE SYNC: ALLOWED / NEXT
-COLAB SMOKE: ALLOWED AFTER VERIFIED P0-47 SYNC
-P0.1 START: FORBIDDEN UNTIL SMOKE PASS
+P0-47 DRIVE SYNC: PASS
+COLAB SMOKE: ALLOWED / NEXT
+P0.1 START: FORBIDDEN UNTIL SMOKE PASS + durable Critic smoke verdict
 ```
 
 Critic READY evidence:
 `CRITIC-VERDICT-P0.0-Candidate.2.md`
 Drive ID `1tiLW6otGyD8UDVk6v9hAMobkSDa06ELO`.
+
+
+## 13. P0-47 completion evidence
+
+P0-47 Drive sync:
+
+```text
+status:
+PASS
+
+source commit:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+source tree:
+c60ff9bea5fcd386a27a85ded41562985dd522a8
+
+synchronized surfaces:
+17 / 17 SHA-256 exact PASS
+```
+
+Evidence folder:
+
+```text
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/p0-47-drive-sync/
+
+Drive ID:
+19RI5VTsUGSmzSbAXAoPRyfSkS3CLyvrA
+
+SHA256SUMS SHA-256:
+ed2f386430e5120940ccfecc81e89ad7ca9f5f136d1c3077abdd89e481864369
+
+Drive readback:
+DRIVE_SHA256SUMS_BYTE_IDENTICAL
+```
+
+Backup:
+
+```text
+Applications/VoxFlux-backup-pre-P0-47-2026-09-24/
+Drive ID:
+1VxZYYmGgE4olqi44_Y2AlR1CJj_mgTQQ
+
+backup census:
+40 files
+12 folders
+```
+
+Protected runtime surfaces were not synchronized:
+- Input/
+- Output/
+- UAT/
+- Models/whisper/
+- Models/pip/
+- Models/Whisper/
+
+Pre-smoke cache baseline:
+
+```text
+Models/whisper/
+large-v3.pt
+small.pt
+
+medium.pt:
+ABSENT
+```
+
+First smoke run is expected to download `medium.pt` into `Models/whisper/`.
+Second smoke run after runtime restart must reuse it without re-download.
+
+Smoke protocol:
+
+```text
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/SMOKE-PROTOCOL.md
+
+Drive file ID:
+11hEVlTVrE_4sF3scbF-FFCaYPcP4sfW9
+```
+
+P0.0 smoke remains `NOT RUN`.
