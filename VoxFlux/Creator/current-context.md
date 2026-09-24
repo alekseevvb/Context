@@ -1840,3 +1840,43 @@ Drive ID:
 Old transitional AI/Transfer folder is now empty.
 
 Future runnable Drive notebooks must follow Runtime/Colab/YYYY.MM.DD/NN. <name>.ipynb.
+
+
+## 29. Critic freeze before final structure verdict
+
+Critic recorded a process deviation: Drive was mutated before structural verdict by creating transitional
+Applications/VoxFluxSTT/Infrastructure/Runtime/Colab/... and moving two notebooks with IDs preserved.
+
+Effective immediately until final structural verdict:
+- NO Drive mutations of any kind;
+- NO edits to DRIVE-TARGET-LAYOUT.md;
+- NO edits to structural agreements;
+- NO new architectural changes in this round.
+
+Critic accepted Runtime/Colab/YYYY.MM.DD/NN. <name>.ipynb but suggested Runtime/Notebooks as an optional naming improvement.
+Creator decision for this Phase-0 round: keep Runtime/Colab frozen; any rename to Runtime/Notebooks is deferred to roadmap after Phase 0.
+
+Exact audit of design commit:
+215037cda84b0c7b4867fc1d5558f9670353701f
+
+revealed two known pre-publication inconsistencies:
+
+1. Legacy names requested by Critic are NOT currently represented exactly.
+Current document says:
+Review/Legacy/VoxFluxSTT/
+Review/Legacy/VoxFluxSTT-Evidence/
+
+Critic requested origin-explicit names such as:
+Review/Legacy/Applications-VoxFluxSTT/
+and an origin-explicit name for the evidence source.
+
+2. Stale root-name references remain in the same frozen document despite the top-level root being VoxFluxSTT:
+- section 3.4 says VoxFlux/IDENTITY.json
+- section 4 target tree starts MyDrive/VoxFlux/
+- section 22 authorization still says full Git mirror to MyDrive/VoxFlux
+
+These are known correctness defects in the frozen 215037c candidate.
+
+No correction was applied because Critic explicitly froze the document until verdict.
+Do not claim the document is internally clean.
+If published as requested, handoff to Critic must disclose these exact defects.
