@@ -1680,3 +1680,66 @@ Next:
 3. Critic gives final structure verdict;
 4. only then build one Git candidate for AI tree + Runtime/UAT;
 5. DRY-RUN-002 -> APPLY -> P0.1.
+
+
+## 27. Root naming decision frozen: VoxFluxSTT
+
+Owner decision:
+
+```text
+STT project Drive root:
+MyDrive/VoxFluxSTT/
+
+STT local worktree root:
+VoxFluxSTT/
+
+TTS project keeps/reserves:
+VoxFlux
+```
+
+This resolves the STT/TTS root-name collision.
+
+Drive search confirmed there is no current root-level `MyDrive/VoxFluxSTT/` folder.
+The existing `VoxFluxSTT` folder is only under:
+
+```text
+MyDrive/Applications/VoxFluxSTT/
+Drive ID:
+1oOzHZqfEX7Ngu5eeLhbe4SKefgS0q3nD
+```
+
+Updated v2 design:
+
+```text
+branch:
+drive-layout-design
+
+commit:
+2a3af8c853b6b24b717df2f4e66b3bee75d69d32
+
+file:
+Infrastructure/Documentation/md/DRIVE-TARGET-LAYOUT.md
+
+blob:
+996c88bb4a928a83457011d4184ae37c857893a1
+```
+
+Updated v2 review publisher:
+
+```text
+commit:
+d72c45107fd2852dd0ec2ad827d75be2580c7901
+
+file:
+Infrastructure/Runtime/Transfer/PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+
+blob:
+405482518fb15b53ac1208b91cc0b87595a4cc12
+```
+
+Publisher now pins:
+- design commit 2a3af8c853b6b24b717df2f4e66b3bee75d69d32
+- design blob 996c88bb4a928a83457011d4184ae37c857893a1
+- future Drive root /content/drive/MyDrive/VoxFluxSTT/
+
+No publication to Drive has occurred yet after this root-name correction.
