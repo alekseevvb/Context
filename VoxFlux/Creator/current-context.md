@@ -731,3 +731,32 @@ Captured requirements include:
 - machine-readable RUN.json manifest with full parameters and per-file results.
 
 Current accepted code is still unchanged until Run 2 and durable Critic smoke verdict.
+
+
+## 17. Run 2 partial evidence and console/shutdown requirements
+
+Run 2 partial evidence:
+
+```text
+VoxFlux/Creator/evidence/p0-smoke-run2-partial-2026-09-24.md
+
+observed:
+processing completed
+segments: 129
+fresh SRT written
+
+formal no-redownload criterion:
+PENDING because Run 2 initialization output was not included
+```
+
+Post-smoke runtime/output requirements were extended with:
+- R5: automatic successful-run Colab release via runtime adapter and `google.colab.runtime.unassign()`;
+- R6: Regenesis-derived Linux-boot-style structured console output;
+- R7: strict finalization -> evidence flush -> STOP -> unassign ordering.
+
+Reference console formatter:
+`RedHatConsoleFormatter` from Regenesis CPU2 experiment package,
+reference formatter SHA-256:
+`c12d31fbee23635e239d0f8d6f36211d7e8ab0d633a616881b7de2353cddf893`.
+
+Do not implement these changes before P0.0 smoke closes.
