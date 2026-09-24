@@ -1023,3 +1023,190 @@ FORBIDDEN UNTIL MIGRATION EVIDENCE IS COMPLETE
 
 Next allowed action:
 independent Critic review of P0.1 Candidate.1 package.
+
+
+## 21. P0.1 Candidate.2 — hierarchical Routes review frontier
+
+User-directed path architecture change:
+
+```text
+flat Layout strings
+->
+hierarchical Routes(parent_index, current_index, sign)
+```
+
+Current deployment route tree:
+
+```text
+RADIX
+├── INPUT
+├── OUTPUT
+└── INFRASTRUCTURE
+    ├── MODELS
+    │   ├── MODELS_WHISPER
+    │   └── MODELS_PARAKEET
+    └── LIBRARIES
+        └── AUXILIARY
+```
+
+The full route is derived by parent-chain traversal.
+
+Examples:
+
+```text
+Routes.INPUT.path
+Input
+
+Routes.LIBRARIES.path
+Infrastructure/Libraries
+
+Routes.MODELS_WHISPER.path
+Infrastructure/Models/Whisper
+
+Routes.AUXILIARY.path
+Infrastructure/Libraries/Auxiliary
+```
+
+Responsibility split:
+
+```text
+Routes:
+logical topology only
+
+Manager:
+absolute deployment root + filesystem operations
+```
+
+Compatibility:
+
+```python
+Layout = Routes
+DeploymentPaths = Routes
+DirectoryManager = Manager
+```
+
+Historical Candidate.1:
+
+```text
+commit:
+863b104e752a03c80abd54abfa9e8b0220166f9d
+
+PR:
+#4 CLOSED
+
+status:
+SUPERSEDED / HISTORICAL
+```
+
+Current Candidate.2:
+
+```text
+branch:
+phase-0-p01-route-tree
+
+commit:
+be27c086265d23c43d07e7b160542bad8b18cf32
+
+tree:
+5596a5ce35e07f469ae984b0ba64e444423aecd5
+
+base Genesis:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+draft PR:
+#5
+https://github.com/alekseevvb/VoxFluxSTT/pull/5
+```
+
+Verification:
+
+```text
+P0 Path Contract Gates:
+run 36015894350
+
+Python 3.10:
+PASS
+
+Python 3.12:
+PASS
+
+P0.1 Model Cache Review:
+run 36015894097
+
+verify-py3.12:
+PASS
+
+p01-review-package:
+PASS
+
+pytest:
+63 passed
+
+Ruff:
+PASS
+
+mypy:
+Success: no issues found in 26 source files
+
+repository SHA256:
+PASS
+```
+
+Formal review package:
+
+```text
+Drive path:
+Applications/VoxFluxSTT-Evidence/P0.1/Candidate-02/
+be27c086265d23c43d07e7b160542bad8b18cf32/review/
+P0.1-model-cache-review-package.zip
+
+Drive folder ID:
+1mdGEytwpO5TQ-iAioeliSEX1yTYSnHC7
+
+Drive file ID:
+1e18z1IhUIb6mgR1i23Nds88sltzzS-nr
+
+Drive readback size:
+219375 bytes
+
+SHA-256:
+0ffbcf7c68a5930f65813d3fe7227e3988c29d1e222f0c46e9b93a18ad80ac0f
+
+GitHub Actions review artifact:
+10813664438
+
+GitHub Actions outer digest:
+cbd956aa7058f8603f1460387a320bc65278b52c6b9be07cff5696bf2b92ae7b
+```
+
+Runtime/deployment state remains unchanged:
+
+```text
+Genesis:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+P0.1 code sync to Drive:
+NOT RUN
+
+Models/whisper -> Models/Whisper migration:
+NOT RUN
+
+Models/pip deletion:
+NOT RUN
+```
+
+Fail-closed guard:
+
+```text
+Candidate.2 merge to Genesis:
+FORBIDDEN UNTIL INDEPENDENT CRITIC READY
+
+Drive code sync:
+FORBIDDEN UNTIL INDEPENDENT CRITIC READY
+
+weight migration:
+FORBIDDEN UNTIL INDEPENDENT CRITIC READY
+```
+
+Next allowed action:
+independent Critic review of P0.1 Candidate.2.
