@@ -1210,3 +1210,39 @@ FORBIDDEN UNTIL INDEPENDENT CRITIC READY
 
 Next allowed action:
 independent Critic review of P0.1 Candidate.2.
+
+
+## 22. P0.1 Candidate.3 WIP — concise model route names
+
+User-directed exact rename:
+
+```text
+Routes.MODELS_WHISPER  -> Routes.WHISPER
+Routes.MODELS_PARAKEET -> Routes.PARAKEET
+```
+
+Applied across active code, notebook, migration tooling, tests, and changelog.
+
+Permanent regression guard added: active code/tests/notebook must contain zero
+occurrences of the legacy identifiers.
+
+Current branch:
+
+```text
+phase-0-p01-route-names
+
+HEAD:
+b2df6ea04683b0a915c5b007bb8ba7f776f1bd34
+
+draft PR:
+#6
+https://github.com/alekseevvb/VoxFluxSTT/pull/6
+```
+
+Candidate.2 is now superseded for future review because the route API changed.
+
+TOML-backed tree initialization is a separate design item and remains NOT
+IMPLEMENTED. First decide the canonical-source/generation direction.
+
+No Drive sync, model migration, Models/pip deletion, or Genesis merge is
+authorized from this WIP state.
