@@ -878,3 +878,148 @@ draft PR:
 first change-set:
 two-class path package + P0-F-001/002
 ```
+
+
+## 20. P0.1 Candidate.1 — independent Critic review frontier
+
+P0.0 is durably closed:
+
+```text
+CRITIC-VERDICT-P0.0-smoke.md
+Drive ID:
+1wZ9WrJFpb9vpicyGFflbMCjBJcU-NXcI
+
+verdict:
+PASS
+
+result:
+P0.0 CLOSED
+P0.1 UNBLOCKED
+```
+
+Current P0.1 working branch:
+
+```text
+phase-0-p01-cache-path-cleanup
+
+candidate commit:
+863b104e752a03c80abd54abfa9e8b0220166f9d
+
+candidate tree:
+3335b19ab1352f302c6bcc726089ea12fff88a26
+
+base Genesis:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+draft PR:
+#4
+https://github.com/alekseevvb/VoxFluxSTT/pull/4
+```
+
+Scope:
+- two-class path package only: `layout.py -> Layout`, `manager.py -> Manager`;
+- compatibility aliases `DeploymentPaths = Layout`, `DirectoryManager = Manager`;
+- P0-F-001 closed by narrowed PATH-15 allowlist + mutation test;
+- P0-F-002 closed by removal of dead exclusions + live-exclusion regression test;
+- global notebook/provider XDG model-cache behavior removed;
+- Whisper model directory passed explicitly from `PathsConfig.models_dir` to provider and `whisper.load_model(..., download_root=...)`;
+- notebook/context prose use canonical `Infrastructure/Models/Whisper`;
+- fail-closed repository migration tool added for `whisper -> neutral -> Whisper` with SHA-256 before/after and rollback.
+
+Verification:
+
+```text
+P0 Path Contract Gates run:
+36013443813
+
+Python 3.10:
+PASS
+
+Python 3.12:
+PASS
+
+P0.1 Model Cache Review run:
+36013443478
+
+verify-py3.12:
+PASS
+
+p01-review-package:
+PASS
+
+pytest:
+61 passed
+
+Ruff:
+PASS
+
+mypy:
+Success: no issues found in 26 source files
+
+repository SHA256:
+PASS
+```
+
+Formal review package:
+
+```text
+Drive path:
+Applications/VoxFluxSTT-Evidence/P0.1/Candidate-01/
+863b104e752a03c80abd54abfa9e8b0220166f9d/review/
+P0.1-model-cache-review-package.zip
+
+Drive ID:
+18ezwOO9wP9QM32jrQQif_UhveE31ix4A
+
+Drive readback size:
+216026 bytes
+
+Drive readback SHA-256:
+a8ec96dd89ccd375de11a9fca8ac9240e44b1da9dac31ef47718a223cb1b04ec
+
+GitHub Actions review artifact ID:
+10813412251
+
+GitHub Actions outer artifact digest:
+c1d1800e3a462f632b7962326027336c3391889e120e5afab620597111766f07
+
+inner review ZIP SHA-256:
+a8ec96dd89ccd375de11a9fca8ac9240e44b1da9dac31ef47718a223cb1b04ec
+```
+
+Persistent Drive migration status:
+
+```text
+Models/whisper weights:
+NOT MIGRATED
+
+Models/Whisper:
+NOT POPULATED WITH LEGACY WEIGHTS BY P0.1 MIGRATION
+
+Models/pip:
+NOT DELETED
+
+pre-migration SHA-256:
+NOT YET CAPTURED
+```
+
+The Drive connector cannot stream these weight files because even `small.pt` exceeds its 256 MiB download ceiling. Exact SHA-256 must therefore be computed on the mounted Drive by the reviewed migration flow / Colab before mutation.
+
+Current fail-closed guard:
+
+```text
+P0.1 CANDIDATE MERGE TO GENESIS:
+FORBIDDEN UNTIL INDEPENDENT CRITIC READY
+
+P0.1 DRIVE CODE SYNC:
+FORBIDDEN UNTIL INDEPENDENT CRITIC READY
+
+WEIGHT MIGRATION:
+FORBIDDEN UNTIL INDEPENDENT CRITIC READY
+
+Models/pip DELETE:
+FORBIDDEN UNTIL MIGRATION EVIDENCE IS COMPLETE
+```
+
+Next allowed action:
+independent Critic review of P0.1 Candidate.1 package.
