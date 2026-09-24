@@ -278,3 +278,78 @@ The terminal ordering for a successful Colab run must be:
 ```
 
 A disconnect before steps 1-7 is a run failure, not a successful shutdown.
+
+
+## R8 — executable-cell / stage lifecycle logging
+
+Every executable notebook cell that represents a logical runtime stage must emit
+a structured lifecycle record instead of relying only on ad-hoc `print()` output.
+
+The durable identity should be a stable stage ID/name, not a fragile physical cell
+number, because cells can be reordered without changing the underlying operation.
+
+Required lifecycle:
+
+```text
+START -> PASS
+      -> FAIL
+```
+
+Each stage record should include, where applicable:
+
+```text
+timestamp
+stable stage id
+human-readable stage name
+status
+elapsed duration
+selected runtime metadata
+error summary / exception type on failure
+```
+
+Recommended notebook stages:
+
+```text
+BOOT      Mount / bind Google Drive
+PATHS     Resolve deployment paths and sys.path
+DEPS      Install / validate dependencies
+DEVICE    Detect accelerator / CUDA device
+MODEL     Initialize ASR model
+DISCOVER  Discover supported Input files
+RUN       Process batch
+FINALIZE  Write SRT + RUN.json + summaries
+SHUTDOWN  Release Colab runtime
+```
+
+Working Linux-boot-style presentation:
+
+```text
+16:20:01  [   ....   ]  BOOT      Mount Google Drive
+16:20:02  [    OK    ]  BOOT      Google Drive mounted                     1.14s
+16:20:02  [   ....   ]  PATHS     Resolve deployment paths
+16:20:02  [    OK    ]  PATHS     Deployment paths ready                   0.03s
+16:20:02  [   ....   ]  DEPS      Install dependencies
+16:20:09  [    OK    ]  DEPS      Dependencies ready                       7.01s
+16:20:09  [   ....   ]  DEVICE    Detect accelerator
+16:20:09  [    OK    ]  DEVICE    NVIDIA L4 / CUDA                         0.09s
+16:20:09  [   ....   ]  MODEL     Initialize Whisper medium
+16:20:17  [    OK    ]  MODEL     Whisper medium ready                     8.14s
+16:20:17  [   INFO   ]  DISCOVER  Files discovered: 4
+...
+16:35:43  [    OK    ]  FINALIZE  Results flushed to Drive                0.31s
+16:35:43  [   STOP   ]  SHUTDOWN  Colab runtime release requested
+```
+
+Rules:
+- markdown-only notebook cells do not require runtime lifecycle events;
+- every executable orchestration cell/stage must have at least one terminal status;
+- a stage that raises must emit `FAIL` before propagating the exception when safe;
+- internal library operations may emit nested detail lines through the same logger,
+  but should not create an independent competing formatting system;
+- cell/stage logs, per-file logs, batch summary, and `RUN.json` must refer to the
+  same run identity;
+- formatting must be centralized in the planned console module and must not be
+  reimplemented separately in notebook cells;
+- plain-text evidence mode must preserve the same semantic events without ANSI codes.
+
+This requirement should be implemented together with R6, not as a second logger.
