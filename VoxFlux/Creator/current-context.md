@@ -1442,3 +1442,132 @@ backup mutation, or Models/pip deletion occurred.
 
 Next action:
 Critic review of target Drive layout design.
+
+
+## 25. Drive layout READY_WITH_CONDITIONS integrated; DRY RUN launcher ready
+
+Critic verdict:
+
+```text
+file:
+CRITIC-VERDICT-DRIVE-TARGET-LAYOUT-52db2ef7.md
+
+Drive ID:
+1IS1aPPruLs09XKGOWaq8J8Xhf9AHc2Ge
+
+verdict:
+READY_WITH_CONDITIONS
+```
+
+C1-C5 were integrated as document amendments with no extra design-review round required.
+
+Amended design commit:
+
+```text
+branch:
+drive-layout-design
+
+commit:
+3c90ccbe4ffe68613bb8af461d25e0b422d31a8f
+
+file:
+Infrastructure/Documentation/md/DRIVE-TARGET-LAYOUT.md
+```
+
+Integrated rules:
+- every current Applications/ top-level object has an explicit fate;
+- Drive-ID-referenced runtime/evidence is moved/renamed through Drive API, never copy+delete;
+- three write-zone classes are defined: review publication, migration/deployment-sync, move-only identity-preserving data;
+- first future APPLY mutation is old-notebook quarantine:
+  `VoxFlux.ipynb -> VoxFlux.ipynb.MIGRATED-DO-NOT-RUN`;
+- transfer notebooks are centralized under `Environments/AI/Transfer/`.
+
+C5 physical correction already performed:
+
+```text
+Transfer folder:
+Applications/VoxFluxSTT/Infrastructure/Environments/AI/Transfer/
+
+folder Drive ID:
+1L2bgzvZgeYjNmv8P9pUipigOjpSOaLLV
+
+PUBLISH-DRIVE-LAYOUT-001.ipynb:
+Drive ID preserved:
+1_K6qXiXWgCtkVwVRVB5S-YiDzcFe94J6
+```
+
+The publication notebook was moved by Drive API from project root to Transfer; it was not copied.
+
+Canonical DRY RUN notebook:
+
+```text
+Git path:
+Infrastructure/Runtime/Transfer/DRIVE-MIGRATION-DRY-RUN-001.ipynb
+
+commit:
+e5b9ad117da70069a9062bfcefd454c5d2657477
+
+blob:
+720fb60612f9ac6d145262525ab6e4273385bcb0
+```
+
+It contains no APPLY operations.
+
+DRY RUN behavior:
+- exact Git design commit verification;
+- Applications/ census by exact Drive IDs;
+- legacy runtime/evidence inventory;
+- protected SRT identity check;
+- Models/pip inventory only;
+- SHA-256 of all legacy Whisper weight files;
+- SHA-256 of protected historical SRT;
+- recursive comparison/hash of both duplicate backups;
+- target conflict precheck;
+- ID-preserving migration plan;
+- writes only DRY RUN evidence under Review/Migration;
+- prints `Runtime/evidence mutations: 0` and `APPLY authorized: NO`.
+
+Drive convenience launcher:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Transfer/
+DRIVE-MIGRATION-DRY-RUN-001.ipynb
+
+Drive ID:
+1bTwqe9s85p6MrdeQdRteMa705fTyJtws
+
+bytes:
+2789
+
+SHA-256:
+d054cc0887c8ef630548bce885f541ae4ac6c2fcbb9fce66454b471e3633753f
+```
+
+The launcher verifies and executes exact canonical DRY RUN:
+
+```text
+commit:
+e5b9ad117da70069a9062bfcefd454c5d2657477
+
+blob:
+720fb60612f9ac6d145262525ab6e4273385bcb0
+```
+
+Current gate:
+
+```text
+allowed:
+user runs DRY RUN launcher
+
+forbidden:
+APPLY
+Drive runtime moves
+model relocation
+P0.1 code sync
+Models/pip deletion
+legacy root archival
+```
+
+Next action:
+user runs the Drive launcher and returns its complete output; Creator then reads split DRY RUN evidence and prepares the Critic handoff.
