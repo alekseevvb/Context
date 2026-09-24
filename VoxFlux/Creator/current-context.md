@@ -1880,3 +1880,74 @@ These are known correctness defects in the frozen 215037c candidate.
 No correction was applied because Critic explicitly froze the document until verdict.
 Do not claim the document is internally clean.
 If published as requested, handoff to Critic must disclose these exact defects.
+
+
+## 30. DRIVE-TARGET-LAYOUT v2 final corrections closed
+
+Owner explicitly authorized correcting the known defects before publication to avoid another review cycle.
+
+No Google Drive mutations were performed.
+
+Final immutable design candidate:
+
+```text
+repo:
+alekseevvb/VoxFluxSTT
+
+branch:
+drive-layout-design
+
+path:
+Infrastructure/Documentation/md/DRIVE-TARGET-LAYOUT.md
+
+design commit:
+231c724390e7252ed8eca8601a34e67344cd2d80
+
+design blob:
+3900ee4a0ec1d6be1c264edea73d479da9395b34
+```
+
+Corrections relative to 215037c:
+1. reserved identity path:
+   VoxFlux/IDENTITY.json -> VoxFluxSTT/IDENTITY.json
+2. full target tree root:
+   MyDrive/VoxFlux/ -> MyDrive/VoxFluxSTT/
+3. historical review origin name:
+   Review/Legacy/VoxFluxSTT/
+   -> Review/Legacy/Applications-VoxFluxSTT/
+4. historical evidence origin name:
+   Review/Legacy/VoxFluxSTT-Evidence/
+   -> Review/Legacy/Applications-VoxFluxSTT-Evidence/
+5. authorization text:
+   full Git mirror to MyDrive/VoxFlux
+   -> full Git mirror to MyDrive/VoxFluxSTT
+
+Control audit PASS:
+- every active MyDrive project-root reference is VoxFluxSTT;
+- stale root tree absent;
+- stale identity path absent;
+- old review/evidence legacy names absent;
+- origin-explicit legacy names present.
+
+Publisher repinned to the final design:
+
+```text
+path:
+Infrastructure/Runtime/Colab/2026.09.25/01. PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+
+publisher commit:
+3a2c38d0d659901cd726f6f7da6a289539e4b6ae
+
+publisher blob:
+6af0824d7fd205e19f0d679fd1eb8a4c771a9b7d
+
+pins design commit:
+231c724390e7252ed8eca8601a34e67344cd2d80
+
+pins design blob:
+3900ee4a0ec1d6be1c264edea73d479da9395b34
+```
+
+This is now the single publication target. Do not edit the design or publisher again before Critic verdict unless a blocking execution defect is discovered.
+
+Drive freeze remains in force except for the owner-run publisher itself.
