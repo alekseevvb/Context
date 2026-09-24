@@ -21,7 +21,7 @@ VoxFlux/Creator/
 
 ```text
 1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-24-p01-candidate1-awaiting-critic.md
+2. VoxFlux/Creator/checkpoint-2026-09-24-p01-candidate2-routes-awaiting-critic.md
 3. VoxFlux/Creator/decision-2026-09-24-post-smoke-path-module-refactor.md
 4. VoxFlux/Creator/requirements-2026-09-24-post-smoke-runtime-output.md
 5. VoxFlux/Creator/recovery-prompt.md
@@ -36,18 +36,33 @@ alekseevvb/VoxFluxSTT
 Genesis expected minimum:
 698d033b0bac1161ed393958ee1e97ca9f70f829
 
-P0.1 working branch:
-phase-0-p01-cache-path-cleanup
+current P0.1 branch:
+phase-0-p01-route-tree
 
-P0.1 Candidate.1 expected:
-863b104e752a03c80abd54abfa9e8b0220166f9d
+P0.1 Candidate.2 expected:
+be27c086265d23c43d07e7b160542bad8b18cf32
 
 tree:
-3335b19ab1352f302c6bcc726089ea12fff88a26
+5596a5ce35e07f469ae984b0ba64e444423aecd5
 
 draft PR:
-https://github.com/alekseevvb/VoxFluxSTT/pull/4
+https://github.com/alekseevvb/VoxFluxSTT/pull/5
 ```
+
+Historical P0.1 Candidate.1:
+
+```text
+commit:
+863b104e752a03c80abd54abfa9e8b0220166f9d
+
+PR:
+#4 CLOSED
+
+status:
+SUPERSEDED / HISTORICAL
+```
+
+Do not merge Candidate.1.
 
 P0.0 state:
 
@@ -64,21 +79,68 @@ verdict:
 PASS
 ```
 
-P0.1 Candidate.1 verification:
+Current path architecture:
+
+```text
+core/paths/
+├── __init__.py
+├── routes.py   -> Routes
+└── manager.py  -> Manager
+```
+
+Routes uses:
+
+```text
+(parent_index, current_index, sign)
+```
+
+Tree:
+
+```text
+RADIX
+├── INPUT
+├── OUTPUT
+└── INFRASTRUCTURE
+    ├── MODELS
+    │   ├── MODELS_WHISPER
+    │   └── MODELS_PARAKEET
+    └── LIBRARIES
+        └── AUXILIARY
+```
+
+Compatibility aliases:
+
+```python
+Layout = Routes
+DeploymentPaths = Routes
+DirectoryManager = Manager
+```
+
+Do not recreate a separate concrete Layout class unless explicitly reauthorized.
+
+Candidate.2 verification:
 
 ```text
 P0 Path Contract Gates:
-run 36013443813
-Python 3.10 PASS
-Python 3.12 PASS
+run 36015894350
+
+Python 3.10:
+PASS
+
+Python 3.12:
+PASS
 
 P0.1 Model Cache Review:
-run 36013443478
-verify-py3.12 PASS
-p01-review-package PASS
+run 36015894097
+
+verify-py3.12:
+PASS
+
+p01-review-package:
+PASS
 
 pytest:
-61 passed
+63 passed
 
 Ruff:
 PASS
@@ -94,26 +156,26 @@ Formal review package:
 
 ```text
 Drive folder:
-Applications/VoxFluxSTT-Evidence/P0.1/Candidate-01/
-863b104e752a03c80abd54abfa9e8b0220166f9d/review/
+Applications/VoxFluxSTT-Evidence/P0.1/Candidate-02/
+be27c086265d23c43d07e7b160542bad8b18cf32/review/
 
 folder ID:
-1mhBcFqSpiNj3iDvjs3yNbDzXXICa35PZ
+1mdGEytwpO5TQ-iAioeliSEX1yTYSnHC7
 
 file:
 P0.1-model-cache-review-package.zip
 
 Drive file ID:
-18ezwOO9wP9QM32jrQQif_UhveE31ix4A
+1e18z1IhUIb6mgR1i23Nds88sltzzS-nr
 
 size:
-216026 bytes
+219375 bytes
 
 SHA-256:
-a8ec96dd89ccd375de11a9fca8ac9240e44b1da9dac31ef47718a223cb1b04ec
+0ffbcf7c68a5930f65813d3fe7227e3988c29d1e222f0c46e9b93a18ad80ac0f
 ```
 
-Current Critic verdict for P0.1 Candidate.1:
+Current Critic verdict for P0.1 Candidate.2:
 
 ```text
 PENDING
@@ -122,47 +184,13 @@ PENDING
 До durable Critic READY строго запрещено:
 
 ```text
-- merge P0.1 candidate to Genesis;
-- Drive code sync for P0.1;
-- migration of Models/whisper weights;
-- deletion of Models/pip.
+- merge Candidate.2 to Genesis;
+- P0.1 Drive code sync;
+- Models/whisper -> Models/Whisper weight migration;
+- Models/pip deletion.
 ```
 
-Current Drive model state remains pre-migration:
-
-```text
-Models/whisper/
-- large-v3.pt
-- small.pt
-- medium.pt
-
-Models/Whisper/
-- canonical target directory exists
-
-Models/pip/
-- still exists and is confirmed pip cache
-```
-
-Exact SHA-256 of the large Drive weights has NOT yet been captured because the connector raw-download ceiling is 256 MiB. This must be computed on mounted Drive immediately before mutation using the reviewed migration flow.
-
-Path architecture ratified after P0.0:
-
-```text
-core/paths/
-├── __init__.py
-├── layout.py  -> Layout
-└── manager.py -> Manager
-
-compatibility aliases:
-DeploymentPaths = Layout
-DirectoryManager = Manager
-```
-
-Do not reintroduce speculative `Resolver` or `Factory` classes.
-
-Deferred runtime/output work (Linux-style formatter, timing/RTF, RUN.json, run-scoped output folders, automatic Colab shutdown, executable-stage lifecycle logging) is NOT part of Phase 0. It remains recorded in:
-`requirements-2026-09-24-post-smoke-runtime-output.md`
-and must later be assigned explicit roadmap items under the appropriate later phase.
+Drive runtime remains pre-migration.
 
 If live Context/Genesis/P0.1 branch advanced, do not roll back. Treat this checkpoint as minimum known state and reconcile all newer durable evidence first.
 
@@ -174,6 +202,7 @@ Context HEAD
 Genesis HEAD
 P0.1 branch HEAD
 P0.1 Candidate identity
+Routes architecture
 current Critic verdict
 Drive migration state
 следующее разрешённое действие
