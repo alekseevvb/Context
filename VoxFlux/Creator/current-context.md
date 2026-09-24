@@ -685,3 +685,49 @@ Project naming convention:
 - prefer one-word file and class names where practical;
 - package context carries domain meaning;
 - do not modify accepted `698d033...` before smoke closure.
+
+
+## 16. P0.0 smoke Run 1 and post-smoke runtime requirements
+
+Run 1 durable evidence:
+
+```text
+VoxFlux/Creator/evidence/p0-smoke-run1-2026-09-24.md
+
+Drive mirror:
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/
+smoke/RUN-1-EVIDENCE.md
+
+Drive ID:
+10Yl9mipjMByum9Sk4gcUqbpzPw2YqA4K
+```
+
+Run 1 result:
+
+```text
+RUN_1_PASS
+medium.pt PRESENT in Infrastructure/Models/whisper/
+fresh SRT PRESENT
+unexpected duplicate Parakeet directory: NONE
+P0.2 phrase "Продолжение следует": 0 occurrences in entire new SRT
+RUN_2_PENDING
+```
+
+Post-smoke runtime/output requirements:
+
+```text
+VoxFlux/Creator/requirements-2026-09-24-post-smoke-runtime-output.md
+```
+
+Captured requirements include:
+- per-file media duration;
+- per-file wall processing time;
+- RTF and x-realtime speed;
+- run/model/device timing metadata;
+- preserve explicit all-files-in-Input batch behavior;
+- run-scoped Output directory named in the direction:
+  `YYYY.MM.DD HH-mm. Model - <model and parameters>`;
+- machine-readable RUN.json manifest with full parameters and per-file results.
+
+Current accepted code is still unchanged until Run 2 and durable Critic smoke verdict.
