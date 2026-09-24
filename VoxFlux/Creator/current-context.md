@@ -1743,3 +1743,100 @@ Publisher now pins:
 - future Drive root /content/drive/MyDrive/VoxFluxSTT/
 
 No publication to Drive has occurred yet after this root-name correction.
+
+
+## 28. Runnable Drive notebook path convention frozen
+
+Owner rule:
+
+```text
+Infrastructure/Runtime/Colab/YYYY.MM.DD/NN. <Notebook name>.ipynb
+```
+
+Semantics:
+- YYYY.MM.DD = project-local creation/introduction date;
+- NN = two-digit sequence within the date;
+- runnable Drive notebooks no longer live under Runtime/Transfer;
+- once published/executed, path/name is immutable; correction gets a new NN;
+- notebooks are Class A and mirror byte-for-byte.
+
+Git restructuring commit:
+
+```text
+215037cda84b0c7b4867fc1d5558f9670353701f
+```
+
+Current Git notebook tree:
+
+```text
+Infrastructure/Runtime/Colab/
+├── 2026.09.24/
+│   ├── 01. PUBLISH-DRIVE-LAYOUT-001.ipynb
+│   ├── 02. DRIVE-MIGRATION-DRY-RUN-001.ipynb
+│   └── 03. DRIVE-MIGRATION-DRY-RUN-001-LAUNCHER.ipynb
+└── 2026.09.25/
+    └── 01. PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+```
+
+Updated design blob:
+
+```text
+abd07c9d2ab4bfc209f3ba500ac42b4003bb6915
+```
+
+Publisher was repinned after the path-convention commit:
+
+```text
+commit:
+97d54d8b6b2401068a6899ef1a8395d96dc621a0
+
+publisher blob:
+11b044840993a80e02a5db264ebb7bab41f1161d
+
+pins design commit:
+215037cda84b0c7b4867fc1d5558f9670353701f
+
+pins design blob:
+abd07c9d2ab4bfc209f3ba500ac42b4003bb6915
+```
+
+Transitional Drive structure created:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Runtime/Colab/
+├── 2026.09.24/
+└── 2026.09.25/
+```
+
+Drive folder IDs:
+
+```text
+Runtime:
+1uPTOrL--8c1wN52aULFVOTS1uaRb8Ebt
+
+Runtime/Colab:
+1k4xgaihxJSd6najLQ_hsThr5obsbSZDM
+
+2026.09.24:
+1hMhCZhoULWg3KYz-b0n4uLVQE0RLrB_x
+
+2026.09.25:
+1OKte7vdF0IUGiX8Qh4AVtFXnc0XpNs-L
+```
+
+Existing Drive runnable copies were moved (not copied), preserving IDs:
+
+```text
+01. PUBLISH-DRIVE-LAYOUT-001.ipynb
+Drive ID:
+1_K6qXiXWgCtkVwVRVB5S-YiDzcFe94J6
+
+03. DRIVE-MIGRATION-DRY-RUN-001-LAUNCHER.ipynb
+Drive ID:
+1bTwqe9s85p6MrdeQdRteMa705fTyJtws
+```
+
+Old transitional AI/Transfer folder is now empty.
+
+Future runnable Drive notebooks must follow Runtime/Colab/YYYY.MM.DD/NN. <name>.ipynb.
