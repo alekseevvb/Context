@@ -1,6 +1,6 @@
 # VoxFlux — Creator current context
 
-**Saved:** 2026-09-24 post-P0-47 PASS / smoke pending  
+**Saved:** 2026-09-24 post-P0-47 ACCEPTED / historical SRT preserved / smoke ready  
 **Role:** Creator / Творец  
 **Language:** Russian  
 **Context repository:** `alekseevvb/Context`  
@@ -53,7 +53,7 @@ message:
 fix(context): preserve tree alignment across directory renames
 ```
 
-**Critic verdict:** READY for Candidate.2. Candidate.2 is fast-forwarded into Genesis. **P0-47 Drive deployment sync is now PASS.** Current guard: P0.1 remains forbidden until P0.0 smoke PASS and durable smoke verdict.
+**Critic verdict:** READY for Candidate.2. Candidate.2 is fast-forwarded into Genesis. **P0-47 Drive deployment sync is PASS and independently ACCEPTED by the Critic** in `CRITIC-VERDICT-P0-47.md` (Drive ID `1V64e4l-oeJnJZNGJdbaHl-VWqH_nkqVP`). Historical pre-smoke SRT evidence has been copied to UAT and hash-verified. Current guard: P0.1 remains forbidden until P0.0 smoke PASS and durable smoke verdict.
 
 ---
 
@@ -388,7 +388,8 @@ P0-47 hash-verified exact accepted Candidate.2/Genesis -> Drive sync: PASS.
 Drive renames Parackeet -> Parakeet and Auxilary -> Auxiliary: PASS.
 17/17 synchronized surfaces raw-byte SHA-256 match exact CI source.
 Protected runtime surfaces preserved.
-P0.0 smoke: NOT RUN.
+Historical `Output/AN-V01-part-001.srt` preserved as `UAT/AN-V01-part-001.srt` before smoke, SHA-256 `85b357dd5b8d0982357674e42c3e810a4f4b0c8f096e1ebeb3c6e6c887785084`.
+P0.0 smoke: NOT RUN / READY TO RUN.
 Only after smoke PASS + durable Critic smoke verdict move to P0.1.
 
 NEXT-008 BLOCKED:
@@ -566,7 +567,82 @@ Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
 698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/SMOKE-PROTOCOL.md
 
 Drive file ID:
-11hEVlTVrE_4sF3scbF-FFCaYPcP4sfW9
+1HOkRlEMnfA500v4BZDAR2I3IBIdx3Z1m
 ```
 
 P0.0 smoke remains `NOT RUN`.
+
+
+## 14. P0-47 Critic acceptance and smoke Gate 0
+
+Durable Critic verdict:
+
+```text
+file:
+CRITIC-VERDICT-P0-47.md
+
+Drive ID:
+1V64e4l-oeJnJZNGJdbaHl-VWqH_nkqVP
+
+verdict:
+ACCEPTED
+```
+
+Mandatory smoke precondition added by Critic and completed before Run 1:
+
+```text
+source:
+Output/AN-V01-part-001.srt
+
+protected copy:
+UAT/AN-V01-part-001.srt
+
+protected copy Drive ID:
+1WihQVcRn7cpH0Xn09dAfPopMwT1CvvLF
+
+size:
+13937 bytes
+
+SHA-256 source:
+85b357dd5b8d0982357674e42c3e810a4f4b0c8f096e1ebeb3c6e6c887785084
+
+SHA-256 protected copy:
+85b357dd5b8d0982357674e42c3e810a4f4b0c8f096e1ebeb3c6e6c887785084
+
+status:
+BYTE_IDENTICAL / PRESERVED
+```
+
+Updated smoke protocol:
+
+```text
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/
+smoke/SMOKE-PROTOCOL.md
+
+Drive file ID:
+1HOkRlEMnfA500v4BZDAR2I3IBIdx3Z1m
+
+SHA-256:
+3643bc62c6eb48ff8853c90a7896b7b76d7f791a6ed0f903620f5eeade22e487
+```
+
+Historical prior protocol retained as:
+`SMOKE-PROTOCOL-pre-critic-SRT-precondition.md`
+(Drive ID `11hEVlTVrE_4sF3scbF-FFCaYPcP4sfW9`).
+
+Current frontier:
+
+```text
+P0-47:
+PASS / CRITIC ACCEPTED
+
+SMOKE GATE 0:
+PASS
+
+P0.0 COLAB SMOKE:
+READY / NOT RUN
+
+P0.1:
+BLOCKED
+```
