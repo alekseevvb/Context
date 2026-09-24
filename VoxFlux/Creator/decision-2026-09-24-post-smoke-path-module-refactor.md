@@ -61,8 +61,8 @@ RADIX
 ├── OUTPUT
 └── INFRASTRUCTURE
     ├── MODELS
-    │   ├── MODELS_WHISPER
-    │   └── MODELS_PARAKEET
+    │   ├── WHISPER
+    │   └── PARAKEET
     └── LIBRARIES
         └── AUXILIARY
 ```
@@ -76,8 +76,8 @@ OUTPUT           = (0, 2, "Output")
 INFRASTRUCTURE   = (0, 3, "Infrastructure")
 MODELS           = (3, 4, "Models")
 LIBRARIES        = (3, 5, "Libraries")
-MODELS_WHISPER   = (4, 6, "Whisper")
-MODELS_PARAKEET  = (4, 7, "Parakeet")
+WHISPER   = (4, 6, "Whisper")
+PARAKEET  = (4, 7, "Parakeet")
 AUXILIARY        = (5, 8, "Auxiliary")
 ```
 
@@ -100,14 +100,14 @@ Owns only the logical deployment tree:
 Example:
 
 ```python
-Routes.MODELS_WHISPER.path
+Routes.WHISPER.path
 # PurePosixPath("Infrastructure/Models/Whisper")
 ```
 
 The path is derived from:
 
 ```text
-MODELS_WHISPER
+WHISPER
 -> MODELS
 -> INFRASTRUCTURE
 -> RADIX
@@ -128,7 +128,7 @@ Owns physical filesystem/root behavior:
 Example:
 
 ```python
-manager.get_path(Routes.MODELS_WHISPER)
+manager.get_path(Routes.WHISPER)
 ```
 
 ## Deliberate difference from the historical example
@@ -216,3 +216,31 @@ PASS
 repository SHA256:
 PASS
 ```
+
+
+## TOML-backed route definition — design pending
+
+The user has directed that the route tree should ultimately be initialized from
+a TOML file describing the directory/file tree.
+
+This is NOT implemented yet.
+
+Open design question:
+
+```text
+What is canonical?
+A. hand-authored TOML -> runtime Routes projection
+B. repository tree -> generated TOML -> runtime Routes
+C. higher-level schema -> generated TOML + repository/Drive projections
+```
+
+Do not implement a generator until the canonical-source relationship is decided.
+
+Current naming rule is already ratified:
+
+```text
+Routes.WHISPER
+Routes.PARAKEET
+```
+
+Do not reintroduce `MODELS_WHISPER` or `MODELS_PARAKEET`.
