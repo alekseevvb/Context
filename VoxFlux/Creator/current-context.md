@@ -1,6 +1,6 @@
 # VoxFlux — Creator current context
 
-**Saved:** 2026-09-24 06:21 +03:00  
+**Saved:** 2026-09-24 post-Critic-READY / post-merge  
 **Role:** Creator / Творец  
 **Language:** Russian  
 **Context repository:** `alekseevvb/Context`  
@@ -21,17 +21,17 @@ Controlling branch:
 Genesis
 ```
 
-Current unchanged Genesis baseline:
+Current Genesis after accepted P0.0 Candidate.2 fast-forward:
 
 ```text
 commit:
-bdc0c5683816fdcd45e696e24feba1e6612412dc
+698d033b0bac1161ed393958ee1e97ca9f70f829
 
 tree:
-918cbe651a2b4fedf200be69f560b35ab095dfeb
+c60ff9bea5fcd386a27a85ded41562985dd522a8
 
-message:
-docs(context): save session context snapshot with anti-hallucination fix and 29 passing tests
+merge mode:
+non-force fast-forward from bdc0c5683816fdcd45e696e24feba1e6612412dc
 ```
 
 Current feature branch:
@@ -53,7 +53,7 @@ message:
 fix(context): preserve tree alignment across directory renames
 ```
 
-**Critical guard:** do not merge Candidate.2 to Genesis and do not perform Drive deployment sync / Colab smoke until independent Critic verdict is READY.
+**Critic verdict:** READY for Candidate.2. Merge guard is lifted and Candidate.2 has been fast-forwarded into Genesis. Current guard: P0.1 remains forbidden until P0-47 hash-verified Drive sync and P0.0 smoke PASS.
 
 ---
 
@@ -334,6 +334,12 @@ Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
 698d033b0bac1161ed393958ee1e97ca9f70f829/split-review/
 ```
 
+Critic verdict file:
+- `CRITIC-VERDICT-P0.0-Candidate.2.md`
+- Drive ID: `1tiLW6otGyD8UDVk6v9hAMobkSDa06ELO`
+- verdict: `READY`
+- findings: `P0-F-001`, `P0-F-002` non-blocking; close in P0.1 test-only change-set.
+
 Important files:
 - `candidate1-to-candidate2.patch`
 - `candidate-core.patch`
@@ -370,22 +376,21 @@ DRIVE_SPLIT_SHA256SUMS_BYTE_IDENTICAL
 ## 8. Current roadmap frontier
 
 Current completed next actions:
-- NEXT-001 through NEXT-005 complete.
+- NEXT-001 through NEXT-006 complete.
+- Candidate.2 received Critic READY.
+- Genesis fast-forwarded to exact accepted Candidate.2 commit `698d033b0bac1161ed393958ee1e97ca9f70f829`.
 
 Current pending:
 
 ```text
-NEXT-006:
-Get independent Critic verdict on Candidate.2.
-No merge, no P0-47 Drive deployment sync, no Colab smoke before READY.
-
-NEXT-007:
-After Critic READY:
-perform P0-47 hash-verified exact Candidate.2 -> Drive sync,
-then short P0.0 smoke using UAT-Phase0.md.
+NEXT-007 OPEN:
+perform P0-47 hash-verified exact accepted Candidate.2/Genesis -> Drive sync,
+including Drive rename Parackeet -> Parakeet and Auxilary -> Auxiliary,
+without touching Input, Output, or model weights;
+then run short P0.0 smoke using UAT-Phase0.md.
 Only after smoke PASS move to P0.1.
 
-NEXT-008:
+NEXT-008 BLOCKED:
 After P0.1-P0.3:
 prepare Phase-0 candidate,
 obtain Critic READY,
@@ -445,13 +450,14 @@ Phase-0 UAT checks include:
 3. Do not treat historical test counts as current unless rerun/evidence is available.
 4. Candidate.1 is NOT READY and historical.
 5. Candidate.2 is the only current P0.0 review candidate.
-6. Do not merge Candidate.2 until Critic says READY.
-7. Do not sync Drive deployment / run Colab smoke until Critic READY.
-8. After Critic READY, first do P0-47 hash-verified sync, then P0.0 smoke.
+6. Candidate.2 Critic verdict is READY and the exact accepted commit is already merged by fast-forward into Genesis.
+7. Current next operation is P0-47 hash-verified Drive deployment sync; P0.1 is still forbidden until P0.0 smoke PASS.
+8. After P0-47 sync, run the short P0.0 smoke.
 9. Full Phase-0 UAT waits for P0.1-P0.3.
 10. A phase closes only with two signatures: Critic READY + User UAT PASS.
 11. Keep roadmap and Context checkpoint synchronized with every frontier change.
 12. Preserve immutable accepted evidence identities; do not rewrite PATH-01 r4 or PATH-16 r2 packages.
+13. Every Critic candidate verdict must be published durably in that candidate's review folder as `CRITIC-VERDICT-<candidate>.md`; chat-only verdicts do not advance Creator state.
 
 ---
 
@@ -471,13 +477,14 @@ If live Git/Drive has advanced after this checkpoint, do **not** roll back. Use 
 
 ## 12. Immediate next action
 
-Wait for / ingest the independent Critic verdict on P0.0 Candidate.2.
-
-Until READY:
+Execute NEXT-007:
 
 ```text
-MERGE: FORBIDDEN
-P0-47 DRIVE SYNC: FORBIDDEN
-COLAB SMOKE: FORBIDDEN
-P0.1 START: FORBIDDEN
+P0-47 DRIVE SYNC: ALLOWED / NEXT
+COLAB SMOKE: ALLOWED AFTER VERIFIED P0-47 SYNC
+P0.1 START: FORBIDDEN UNTIL SMOKE PASS
 ```
+
+Critic READY evidence:
+`CRITIC-VERDICT-P0.0-Candidate.2.md`
+Drive ID `1tiLW6otGyD8UDVk6v9hAMobkSDa06ELO`.
