@@ -1325,3 +1325,120 @@ It has no authorized write path to Input, Output, Models, runtime libraries, UAT
 
 Next action:
 user runs the exact-commit transfer notebook in Colab with a `GITHUB_TOKEN` secret.
+
+
+## 24. Git -> Colab -> Drive layout publication PASS
+
+User executed:
+
+```text
+PUBLISH-DRIVE-LAYOUT-001.ipynb
+```
+
+Notebook source commit:
+
+```text
+8235c55ea7d6fda93b1b4a9cea4912737e68011e
+```
+
+Pinned document source commit:
+
+```text
+52db2ef7c1b2c1cb171006083dac16b50f3bbc5d
+```
+
+Operator result:
+
+```text
+Git commit verified: PASS
+Google Drive mount: PASS
+DRIVE-TARGET-LAYOUT.md fetched: PASS
+ROADMAP.md fetched: PASS
+Review materialization: PASS
+Roadmap materialization: PASS
+MANIFEST.json: WRITTEN
+SHA256SUMS: WRITTEN
+Drive flush/unmount: PASS
+```
+
+Drive review folder:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Review/Architecture/Drive-Layout/
+52db2ef7c1b2c1cb171006083dac16b50f3bbc5d/
+
+Drive folder ID:
+1Oqlt-X5HEFH1oSyHX1Vyi7h6tfZtjH2_
+```
+
+Files:
+
+```text
+DRIVE-TARGET-LAYOUT.md
+Drive ID 1n__EHFGsvHtB-C26bd4RtrINi0PNJcGh
+bytes 9091
+SHA-256 b63e276cd2a2d686953c63443aee72c4a8daad6ab402c9c3dee0e68c92eb20d8
+
+ROADMAP.md
+Drive ID 1FBy_yHGL9iA8ltP_y0U0g-9c1dy5K5Ig
+bytes 68633
+SHA-256 e0e741431b64c44daa0b4fd576cbe6c031c61e0b78e9f203e1cc8f2bafac744b
+
+MANIFEST.json
+Drive ID 1grNvzBFxdBxk6eDNlbvR8MZKPKtI5OnO
+bytes 1691
+SHA-256 5b4742e1de7a037110b6b49672ccd329a0f96516450e5b580187eb8e26f0a464
+
+SHA256SUMS
+Drive ID 1HI0y7AB98NhNwQmuoXdschLdl6Hf7xPK
+```
+
+Roadmap live copy:
+
+```text
+Applications/VoxFluxSTT/Infrastructure/Environments/AI/Roadmap/
+
+ROADMAP.md
+Drive ID 19PciUI-jf5glvIx7Tx6tBSPXtux0LDuJ
+bytes 68633
+
+IDENTITY.json
+Drive ID 1ZIHlpk8EuGqWfte0ZrJaMf0SZyWi5GOj
+bytes 400
+
+IDENTITY source commit:
+52db2ef7c1b2c1cb171006083dac16b50f3bbc5d
+
+IDENTITY roadmap SHA-256:
+e0e741431b64c44daa0b4fd576cbe6c031c61e0b78e9f203e1cc8f2bafac744b
+```
+
+Creator Drive readback verified the actual raw Drive files:
+
+```text
+DRIVE-TARGET-LAYOUT.md:
+b63e276cd2a2d686953c63443aee72c4a8daad6ab402c9c3dee0e68c92eb20d8 PASS
+
+ROADMAP.md:
+e0e741431b64c44daa0b4fd576cbe6c031c61e0b78e9f203e1cc8f2bafac744b PASS
+
+MANIFEST.json:
+5b4742e1de7a037110b6b49672ccd329a0f96516450e5b580187eb8e26f0a464 PASS
+```
+
+This is the first successful use of the new canonical transfer path:
+
+```text
+Git exact commit
+-> user-run Colab transfer notebook
+-> restricted Drive materialization
+-> Creator readback/hash verification
+-> Critic handoff
+```
+
+No runtime migration, model move, code sync, Input/Output mutation, UAT mutation,
+backup mutation, or Models/pip deletion occurred.
+
+Next action:
+Critic review of target Drive layout design.
