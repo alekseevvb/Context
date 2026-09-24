@@ -25,7 +25,7 @@ VoxFlux/Creator/
 
 ```text
 1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-24-p0-p047-accepted-srt-preserved-smoke-ready.md
+2. VoxFlux/Creator/checkpoint-2026-09-24-p0-smoke-creator-pass-critic-pending.md
 3. VoxFlux/Creator/recovery-prompt.md
 ```
 
@@ -174,5 +174,40 @@ Smoke protocol:
 Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/SMOKE-PROTOCOL.md
 Drive ID 1HOkRlEMnfA500v4BZDAR2I3IBIdx3Z1m
 
-P0.0 smoke = READY / NOT RUN.
+P0.0 smoke = CREATOR PASS / CRITIC VERDICT PENDING.
 P0.1 = BLOCKED until smoke PASS + durable Critic smoke verdict.
+
+
+Current smoke evidence:
+
+```text
+Run 1:
+PASS
+
+Run 2:
+PASS
+
+Creator aggregate:
+PASS
+
+Drive smoke folder:
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
+698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/
+
+RUN-1-EVIDENCE.md
+RUN-2-EVIDENCE.md
+SMOKE-RESULT.md
+
+CRITIC-VERDICT-P0.0-smoke.md:
+PENDING
+```
+
+Do not start P0.1 until the durable Critic smoke verdict is published.
+
+After that verdict, return first to:
+1. `decision-2026-09-24-post-smoke-path-module-refactor.md`;
+2. `requirements-2026-09-24-post-smoke-runtime-output.md`.
+
+The runtime/output requirements include R8:
+every executable notebook stage must use centralized structured
+START -> PASS/FAIL lifecycle logging with timestamps and durations.
