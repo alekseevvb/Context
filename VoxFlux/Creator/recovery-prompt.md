@@ -25,7 +25,7 @@ VoxFlux/Creator/
 
 ```text
 1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-24-p0-candidate2-ready-merged-next-p047.md
+2. VoxFlux/Creator/checkpoint-2026-09-24-p0-p047-pass-smoke-pending.md
 3. VoxFlux/Creator/recovery-prompt.md
 ```
 
@@ -128,10 +128,12 @@ Candidate.2 уже fast-forward merged в Genesis.
 
 ```text
 NEXT-007:
-1. P0-47: hash-verified sync exact accepted Candidate.2/Genesis -> Drive deployment.
-2. Короткий behavior-preserving P0.0 smoke по UAT-Phase0.md.
-3. Только после smoke PASS перейти к P0.1.
-4. Полный Phase-0 UAT выполнять только после P0.1-P0.3.
+1. P0-47 hash-verified sync exact accepted Candidate.2/Genesis -> Drive deployment: PASS.
+2. Следующее действие: короткий P0.0 smoke по опубликованному SMOKE-PROTOCOL.md.
+3. Первый smoke-run должен скачать medium.pt именно в Models/whisper/.
+4. После restart второй run обязан переиспользовать medium.pt без повторной загрузки.
+5. Только после smoke PASS и durable CRITIC-VERDICT-P0.0-smoke.md открыть P0.1.
+6. Полный Phase-0 UAT выполнять только после P0.1-P0.3.
 ```
 
 Правило durable verdict:
@@ -160,4 +162,16 @@ UAT status
 следующее разрешённое действие
 ```
 
-Перед любым write/sync снова сверь live HEAD. Merge Candidate.2 уже выполнен; следующее разрешённое действие — P0-47 sync.
+Перед любым write снова сверь live HEAD. Merge Candidate.2 и P0-47 sync уже выполнены.
+
+P0-47 evidence:
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/698d033b0bac1161ed393958ee1e97ca9f70f829/p0-47-drive-sync/
+Drive ID 19RI5VTsUGSmzSbAXAoPRyfSkS3CLyvrA
+17/17 SHA-256 PASS.
+
+Smoke protocol:
+Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/SMOKE-PROTOCOL.md
+Drive ID 11hEVlTVrE_4sF3scbF-FFCaYPcP4sfW9
+
+P0.0 smoke = NOT RUN.
+P0.1 = BLOCKED until smoke PASS + durable Critic smoke verdict.
