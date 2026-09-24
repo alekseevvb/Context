@@ -2,13 +2,11 @@
 
 **Date:** 2026-09-24
 **Role:** Creator
-**Status:** DEFERRED_UNTIL_P0_0_SMOKE_CLOSE
+**Status:** ACTIVE / IMPLEMENTED_ON_P0.1_WORKING_BRANCH
 
-## Process guard
+## Controlling code identity
 
-Do not modify `VoxFluxSTT/Genesis` or accepted P0.0 Candidate.2 before the two-run Colab smoke and durable Critic smoke verdict.
-
-Current accepted code identity:
+Accepted P0.0 / Genesis baseline:
 
 ```text
 Genesis:
@@ -18,36 +16,32 @@ tree:
 c60ff9bea5fcd386a27a85ded41562985dd522a8
 ```
 
-This decision is the first architecture item to return to immediately after smoke closure.
+P0.0 smoke is closed with durable Critic PASS. P0.1 is unblocked.
 
 ## Agreed design principles
 
 1. Project convention: **one primary class per file**.
 2. Prefer **single-word class names and single-word file names** where practical.
-3. Package/module context should carry domain meaning instead of repeating it in every class name.
-4. Existing P0.0 `core/paths.py` is transitional and violates the convention because it contains both `DeploymentPaths` and `DirectoryManager`.
-5. The current path responsibilities should be split into a dedicated `paths` package.
-6. Do not collapse distinct responsibilities merely to satisfy short names.
+3. Package/module context carries domain meaning instead of repeating it in class names.
+4. The accepted P0.0 `core/paths.py` was transitional because it contained two classes.
+5. Do not introduce `Resolver` or `Factory` without a concrete responsibility that cannot be owned cleanly by the current two concepts.
+6. Preserve accepted P0.0 public names through compatibility aliases during the Phase-0 transition.
 
-## Working path-module shape
+## Ratified path-module shape
 
 ```text
 core/
 └── paths/
     ├── __init__.py
     ├── layout.py
-    ├── resolver.py
-    ├── manager.py
-    └── factory.py
+    └── manager.py
 ```
 
-Working class names:
+Classes:
 
 ```text
-layout.py   -> Layout
-resolver.py -> Resolver
-manager.py  -> Manager
-factory.py  -> Factory
+layout.py  -> Layout
+manager.py -> Manager
 ```
 
 Responsibilities:
@@ -55,62 +49,44 @@ Responsibilities:
 ```text
 Layout
 - canonical logical deployment structure only
+- Enum values only
 - no filesystem mutation
 - no runtime config construction
 
-Resolver
-- owns deployment root
-- optional from_env()
-- logical path -> absolute path
-- no directory creation
-
 Manager
-- filesystem directory operations only
-- ensure/exists and related directory lifecycle operations
-- no runtime config construction
-
-Factory
-- creates runtime PathsConfig from resolved deployment paths
-- owns what is currently default_paths_config()
+- owns explicit deployment root
+- optional from_env()
+- logical Layout item -> absolute path
+- explicit directory creation through ensure_dirs()
+- creates the existing PathsConfig defaults while that transitional API remains in Phase 0
 ```
 
-## Naming constraint
-
-Avoid names such as:
+Compatibility aliases in `paths/__init__.py`:
 
 ```text
-DeploymentPathResolver
-DeploymentDirectoryManager
-PathsConfigFactory
+DeploymentPaths = Layout
+DirectoryManager = Manager
 ```
 
-when package context already makes the domain clear.
+These aliases are not additional classes and preserve the accepted P0.0 import surface.
 
-Preferred public API direction:
-
-```python
-from VoxFlux.core.paths import Layout, Resolver, Manager, Factory
-```
-
-## Additional follow-up noted
-
-The same one-class-per-file convention should later be checked across other modules, including current multi-class files such as `config.py` and `models.py`. This is not authorized to expand the immediate post-smoke path refactor automatically; scope must be decided explicitly before implementation.
-
-## Re-entry condition
-
-Return to this decision immediately after:
+## Explicitly rejected for the current scope
 
 ```text
-P0.0 Colab Run 1 PASS
-AND
-P0.0 Colab Run 2 PASS
-AND
-durable CRITIC-VERDICT-P0.0-smoke.md
+resolver.py -> Resolver
+factory.py  -> Factory
 ```
 
-Until then:
+They are not introduced because the present code has no independent responsibility requiring them. Adding them now would be speculative abstraction and would violate the Phase-0 NO-overengineering rule.
+
+## Current implementation
+
+Working branch:
 
 ```text
-ARCHITECTURE WRITE: DEFERRED
-P0.1 START: BLOCKED
+phase-0-p01-cache-path-cleanup
 ```
+
+The two-file package is implemented there and the dedicated regression gates passed before the P0.1 model-cache changes were layered on top.
+
+The same one-class-per-file convention should later be reviewed across other multi-class modules such as `config.py` and `models.py`, but that is outside this narrow path change-set unless explicitly scoped later.
