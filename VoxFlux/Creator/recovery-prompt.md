@@ -1,23 +1,19 @@
 # VoxFlux Creator recovery prompt
 
-Copy the prompt below into a new ChatGPT tab/chat.
+Восстанови текущий Creator-контекст проекта **VoxFlux / VoxFluxSTT**.
 
----
+Работай как **Творец (Creator)** и отвечай только по-русски.
 
-Восстанови текущий Creator-контекст проекта **VoxFlux / VoxFluxSTT** из нового context repository:
+Контекст:
 
 ```text
+repo:
 alekseevvb/Context
-branch main-way
-```
 
-Работай в роли **Творца (Creator)**.
+branch:
+main-way
 
-Отвечай только на русском языке.
-
-Контекст VoxFlux хранится строго в:
-
-```text
+root:
 VoxFlux/Creator/
 ```
 
@@ -25,189 +21,160 @@ VoxFlux/Creator/
 
 ```text
 1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-24-p0-smoke-creator-pass-critic-pending.md
-3. VoxFlux/Creator/recovery-prompt.md
+2. VoxFlux/Creator/checkpoint-2026-09-24-p01-candidate1-awaiting-critic.md
+3. VoxFlux/Creator/decision-2026-09-24-post-smoke-path-module-refactor.md
+4. VoxFlux/Creator/requirements-2026-09-24-post-smoke-runtime-output.md
+5. VoxFlux/Creator/recovery-prompt.md
 ```
 
-После этого обязательно сверь live state:
+Затем обязательно сверь live Git state:
 
 ```text
 code repo:
 alekseevvb/VoxFluxSTT
 
-controlling branch:
-Genesis
-
-feature branch:
-phase-0-path-contract
-```
-
-Ожидаемый минимум состояния на момент сохранения:
-
-```text
-VoxFluxSTT/Genesis
+Genesis expected minimum:
 698d033b0bac1161ed393958ee1e97ca9f70f829
 
-P0.0 Candidate.2
-branch:
-phase-0-path-contract
+P0.1 working branch:
+phase-0-p01-cache-path-cleanup
 
-commit:
-698d033b0bac1161ed393958ee1e97ca9f70f829
+P0.1 Candidate.1 expected:
+863b104e752a03c80abd54abfa9e8b0220166f9d
 
 tree:
-c60ff9bea5fcd386a27a85ded41562985dd522a8
+3335b19ab1352f302c6bcc726089ea12fff88a26
 
-controlling CI run:
-35949861745
-
-Python 3.10:
-pytest 56/56 PASS
-Ruff PASS
-mypy 0/23
-repository SHA256 PASS
-
-Python 3.12:
-pytest 56/56 PASS
-Ruff PASS
-mypy 0/23
-repository SHA256 PASS
+draft PR:
+https://github.com/alekseevvb/VoxFluxSTT/pull/4
 ```
 
-Candidate.1:
+P0.0 state:
 
 ```text
-08573317dd8a39c45cb0fea6ed1df5b7ec730d60
-NOT READY
-HISTORICAL / SUPERSEDED
+CLOSED
+
+durable verdict:
+CRITIC-VERDICT-P0.0-smoke.md
+
+Drive ID:
+1wZ9WrJFpb9vpicyGFflbMCjBJcU-NXcI
+
+verdict:
+PASS
 ```
 
-Canonical roadmap:
+P0.1 Candidate.1 verification:
 
 ```text
-Applications/VoxFluxSTT-IMPROVEMENT-ROADMAP.md
-version v0.5
+P0 Path Contract Gates:
+run 36013443813
+Python 3.10 PASS
+Python 3.12 PASS
 
-https://drive.google.com/file/d/1jmIdwnlJe-gueqzYK8DNMeNvwyotCITK/view?usp=drivesdk
+P0.1 Model Cache Review:
+run 36013443478
+verify-py3.12 PASS
+p01-review-package PASS
+
+pytest:
+61 passed
+
+Ruff:
+PASS
+
+mypy:
+0 issues / 26 source files
+
+repository SHA256:
+PASS
 ```
 
-Canonical Phase-0 UAT:
+Formal review package:
 
 ```text
-Applications/VoxFlux/UAT/UAT-Phase0.md
+Drive folder:
+Applications/VoxFluxSTT-Evidence/P0.1/Candidate-01/
+863b104e752a03c80abd54abfa9e8b0220166f9d/review/
 
-https://drive.google.com/file/d/1_KyZt4eDff78-mpH9TxtZuuVa3YAhhIn/view?usp=drivesdk
+folder ID:
+1mhBcFqSpiNj3iDvjs3yNbDzXXICa35PZ
+
+file:
+P0.1-model-cache-review-package.zip
+
+Drive file ID:
+18ezwOO9wP9QM32jrQQif_UhveE31ix4A
+
+size:
+216026 bytes
+
+SHA-256:
+a8ec96dd89ccd375de11a9fca8ac9240e44b1da9dac31ef47718a223cb1b04ec
 ```
 
-Candidate.2 split-review for Critic:
+Current Critic verdict for P0.1 Candidate.1:
 
 ```text
-https://drive.google.com/drive/folders/1IzW8ADPhxvM7riq8RjYf3JxgyXuvfxKo
+PENDING
 ```
 
-Главный process rule:
+До durable Critic READY строго запрещено:
 
 ```text
-Phase close =
-Critic READY
-AND
-User UAT PASS
+- merge P0.1 candidate to Genesis;
+- Drive code sync for P0.1;
+- migration of Models/whisper weights;
+- deletion of Models/pip.
 ```
 
-Critic verdict Candidate.2:
+Current Drive model state remains pre-migration:
 
 ```text
-READY
-file: CRITIC-VERDICT-P0.0-Candidate.2.md
-Drive ID: 1tiLW6otGyD8UDVk6v9hAMobkSDa06ELO
+Models/whisper/
+- large-v3.pt
+- small.pt
+- medium.pt
+
+Models/Whisper/
+- canonical target directory exists
+
+Models/pip/
+- still exists and is confirmed pip cache
 ```
 
-Candidate.2 уже fast-forward merged в Genesis.
+Exact SHA-256 of the large Drive weights has NOT yet been captured because the connector raw-download ceiling is 256 MiB. This must be computed on mounted Drive immediately before mutation using the reviewed migration flow.
 
-Текущий frontier:
+Path architecture ratified after P0.0:
 
 ```text
-NEXT-007:
-1. P0-47 hash-verified sync exact accepted Candidate.2/Genesis -> Drive deployment: PASS / Critic ACCEPTED (`CRITIC-VERDICT-P0-47.md`, Drive ID `1V64e4l-oeJnJZNGJdbaHl-VWqH_nkqVP`).
-2. Mandatory Gate 0 already PASS: historical `Output/AN-V01-part-001.srt` copied to `UAT/AN-V01-part-001.srt`, exact SHA-256 `85b357dd5b8d0982357674e42c3e810a4f4b0c8f096e1ebeb3c6e6c887785084`.
-3. Следующее действие: короткий P0.0 smoke по обновлённому SMOKE-PROTOCOL.md.
-4. Первый smoke-run должен скачать medium.pt именно в Models/whisper/.
-5. После restart второй run обязан переиспользовать medium.pt без повторной загрузки.
-6. Только после smoke PASS и durable CRITIC-VERDICT-P0.0-smoke.md открыть P0.1.
-7. Полный Phase-0 UAT выполнять только после P0.1-P0.3.
+core/paths/
+├── __init__.py
+├── layout.py  -> Layout
+└── manager.py -> Manager
+
+compatibility aliases:
+DeploymentPaths = Layout
+DirectoryManager = Manager
 ```
 
-Правило durable verdict:
+Do not reintroduce speculative `Resolver` or `Factory` classes.
 
-```text
-Каждый verdict Критика публикуется в review-папке кандидата
-как CRITIC-VERDICT-<candidate>.md.
-Chat-only verdict не считается durable state для Creator.
-```
+Deferred runtime/output work (Linux-style formatter, timing/RTF, RUN.json, run-scoped output folders, automatic Colab shutdown, executable-stage lifecycle logging) is NOT part of Phase 0. It remains recorded in:
+`requirements-2026-09-24-post-smoke-runtime-output.md`
+and must later be assigned explicit roadmap items under the appropriate later phase.
 
-Если live `Context/main-way`, `VoxFluxSTT/Genesis` или feature branch уже продвинулись дальше сохранённых SHA, **не откатывайся**. Сначала восстанови этот checkpoint как minimum known state, затем полностью прочитай новые durable context/evidence и используй более новый live frontier.
-
-Не считай исторические test counts текущими без evidence.
+If live Context/Genesis/P0.1 branch advanced, do not roll back. Treat this checkpoint as minimum known state and reconcile all newer durable evidence first.
 
 После восстановления кратко выведи:
 
 ```text
 Роль
 Context HEAD
-VoxFluxSTT Genesis HEAD
-feature branch HEAD
-current roadmap version
-current Candidate status
+Genesis HEAD
+P0.1 branch HEAD
+P0.1 Candidate identity
 current Critic verdict
-UAT status
+Drive migration state
 следующее разрешённое действие
 ```
-
-Перед любым write снова сверь live HEAD. Merge Candidate.2 и P0-47 sync уже выполнены.
-
-P0-47 evidence:
-Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/698d033b0bac1161ed393958ee1e97ca9f70f829/p0-47-drive-sync/
-Drive ID 19RI5VTsUGSmzSbAXAoPRyfSkS3CLyvrA
-17/17 SHA-256 PASS.
-
-Smoke protocol:
-Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/SMOKE-PROTOCOL.md
-Drive ID 1HOkRlEMnfA500v4BZDAR2I3IBIdx3Z1m
-
-P0.0 smoke = CREATOR PASS / CRITIC VERDICT PENDING.
-P0.1 = BLOCKED until smoke PASS + durable Critic smoke verdict.
-
-
-Current smoke evidence:
-
-```text
-Run 1:
-PASS
-
-Run 2:
-PASS
-
-Creator aggregate:
-PASS
-
-Drive smoke folder:
-Applications/VoxFluxSTT-Evidence/P0.0/Candidate-02/
-698d033b0bac1161ed393958ee1e97ca9f70f829/smoke/
-
-RUN-1-EVIDENCE.md
-RUN-2-EVIDENCE.md
-SMOKE-RESULT.md
-
-CRITIC-VERDICT-P0.0-smoke.md:
-PENDING
-```
-
-Do not start P0.1 until the durable Critic smoke verdict is published.
-
-After that verdict, return first to:
-1. `decision-2026-09-24-post-smoke-path-module-refactor.md`;
-2. `requirements-2026-09-24-post-smoke-runtime-output.md`.
-
-The runtime/output requirements include R8:
-every executable notebook stage must use centralized structured
-START -> PASS/FAIL lifecycle logging with timestamps and durations.
