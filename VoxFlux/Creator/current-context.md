@@ -2361,3 +2361,238 @@ Not authorized:
 Next:
 Critic independently reviews exact commit b57f87476d799e1539661ceeefe3197eec547ce2 and Drive review package.
 Only after acceptance prepare/run DRY-RUN-002.
+
+
+## 32. Phase-0 Drive migration Candidate.1 ready for independent Critic review
+
+Final structural verdict received from Critic:
+
+```text
+DRIVE-TARGET-LAYOUT v2
+READY_WITH_CONDITIONS
+```
+
+Structure is frozen. Critic blocking findings:
+- B1: pre-migration Git candidate must already contain the new Colab root and P0.1 Whisper cache fix.
+- B2: stale Class-A files must be derived from the commit recorded by previous root IDENTITY.json.
+
+Minor accepted corrections:
+- §3.1 example root fixed to VoxFluxSTT.
+- legacy Parakeet currently contains only .gitkeep and is not a runtime-data move.
+- notebook directory date is project-local; message filename timestamps are UTC.
+
+Controlling implementation candidate:
+
+```text
+repo:
+alekseevvb/VoxFluxSTT
+
+branch:
+phase-0-drive-migration-candidate-1
+
+PR:
+#7 (draft; not authorized to merge)
+
+base / parent:
+3a2c38d0d659901cd726f6f7da6a289539e4b6ae
+
+candidate commit:
+82e4b32f53b16a5b86753662bf849c2d982b401c
+
+candidate tree:
+9dbfcd4d25e0dfce82e7c5672f284208753263eb
+
+commits after base:
+1
+
+changed paths:
+39
+
+tracked files:
+107
+```
+
+Candidate scope:
+1. final AI role tree;
+2. Runtime/Colab convention;
+3. Runtime/UAT/Data split;
+4. Colab deployment root -> /content/drive/MyDrive/VoxFluxSTT/Colab;
+5. P0.1 Whisper cache fix: explicit download_root, no project XDG_CACHE_HOME override;
+6. final public path API Routes + Manager with symbolic parents and no compatibility aliases;
+7. B2 stale-Class-A semantics from previous IDENTITY.commit_sha;
+8. retirement of legacy generic in-repository AI Context snapshots/manage_context;
+9. DRIVE-TARGET-LAYOUT blocking-contract corrections travel inside candidate, no new structural review round.
+
+AI candidate tree:
+
+```text
+Infrastructure/Environments/AI/
+├── Creator/
+│   └── Message/
+├── Critic/
+│   ├── Context/
+│   └── Message/
+└── Review/
+```
+
+Runtime candidate additions:
+
+```text
+Infrastructure/Runtime/
+├── Colab/YYYY.MM.DD/NN. <name>.ipynb
+└── UAT/
+    ├── README.md
+    └── Data/
+```
+
+Legacy in-repo:
+
+```text
+Infrastructure/Environments/AI/Context/
+Infrastructure/Runtime/Context/manage_context.py
+```
+
+is removed from the active candidate tree. Historical content remains in Git history. Creator private context remains in the external Context repository.
+
+Executed publisher notebook remains immutable:
+
+```text
+Infrastructure/Runtime/Colab/2026.09.25/
+01. PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+
+blob:
+6af0824d7fd205e19f0d679fd1eb8a4c771a9b7d
+```
+
+Final CI run:
+
+```text
+GitHub Actions run:
+36076054473
+
+candidate:
+82e4b32f53b16a5b86753662bf849c2d982b401c
+
+Python 3.10:
+pytest PASS
+Ruff PASS
+Mypy PASS
+repository SHA256 PASS
+
+Python 3.12:
+pytest PASS
+Ruff PASS
+Mypy PASS
+repository SHA256 PASS
+
+formal-review-package:
+PASS
+```
+
+Canonical review ZIP:
+
+```text
+phase-0-drive-migration-candidate-1-review-package.zip
+
+bytes:
+260451
+
+SHA-256:
+97e133e46531a986adb4731bf4d58b41df88332dd5a67b9bbbdef18a88239dca
+```
+
+Internal review-package SHA256SUMS: PASS.
+Manifest identity:
+- candidate = phase-0-drive-migration-candidate-1
+- base_commit = parent_commit = 3a2c38d...
+- commit_sha = 82e4b32...
+- tree_sha = 9dbfcd4...
+- changed_path_count = 39
+- tracked_file_count = 107
+- evidence present for py3.10 + py3.12.
+
+Drive controlling review folder:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Review/
+P0-Migration/Candidate-001/
+82e4b32f53b16a5b86753662bf849c2d982b401c/
+```
+
+Drive folder ID:
+
+```text
+14YhDKnVtGIB0pKxm8ZwMQ6P0iV4Rnhar
+```
+
+Published Drive objects:
+
+```text
+phase-0-drive-migration-candidate-1-review-package.zip
+ID:
+1efGby5iDG3TqVZi-m0Fe1LmbHAHaZr4g
+
+phase-0-drive-migration-candidate-1-review-package.zip.sha256
+ID:
+1v0FaewPRYa2Wfc-lEHDEFqpZPxG0LgCR
+
+MANIFEST.json
+ID:
+187lC7KlJyWGunncCzWzoJV0Gi6VFWLe-
+
+CANDIDATE.md
+ID:
+18W3vzZosKKHHiErpiyJIu6km2v2kt7v7
+```
+
+Drive readback:
+- canonical ZIP downloaded back from Drive;
+- SHA-256 = 97e133e... (exact match);
+- Drive MANIFEST confirms candidate/base/parent/tree.
+
+Historical superseded pre-final review identity:
+
+```text
+Review/P0-Migration/Candidate-001/
+b57f87476d799e1539661ceeefe3197eec547ce2/
+```
+
+must NOT be treated as controlling.
+
+Creator->Critic handoff:
+original handoff filename used an incorrect future UTC timestamp and remains immutable.
+Correction message controls timestamp provenance:
+
+```text
+Creator/Message/
+2026-09-25T00-11-03Z__phase-0-drive-migration-candidate-1-handoff-timestamp-correction.md
+
+Drive ID:
+1amqTfArqdavKWbMrZisLbRpfS5gBzCsu
+
+SHA-256:
+bc619a74abb402739250c6b7a24717f3e2c2148f0f06ac60a84bbb440ebc05c8
+```
+
+It replies to the immutable original handoff:
+
+```text
+2026-09-25T00-15-00Z__phase-0-drive-migration-candidate-1-ready-for-review.md
+
+Drive ID:
+1-AOF4yUB1jlMfXgxIqmLiY7XmBGybcvU
+```
+
+Current frontier:
+
+```text
+PHASE-0 DRIVE MIGRATION CANDIDATE.1
+READY_FOR_INDEPENDENT_CRITIC_REVIEW
+
+DRY-RUN-002:
+BLOCKED pending Critic acceptance
+
+APPLY:
+BLOCKED
+```
