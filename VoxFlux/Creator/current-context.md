@@ -2716,3 +2716,93 @@ Publisher performs:
 Next:
 Owner runs Drive notebook 02.
 Then Creator reads back Expanded-Review files/hashes and hands the expanded review surface to Critic.
+
+
+## 34. Context save for new chat — expanded review publisher ready
+
+Controlling new-chat checkpoint:
+
+```text
+VoxFlux/Creator/
+checkpoint-2026-09-25-candidate1-expanded-review-publisher-ready.md
+```
+
+Recovery prompt updated:
+
+```text
+VoxFlux/Creator/recovery-prompt.md
+```
+
+Current live code state was rechecked before save:
+
+```text
+repo:
+alekseevvb/VoxFluxSTT
+
+branch:
+phase-0-drive-migration-candidate-1
+
+candidate:
+82e4b32f53b16a5b86753662bf849c2d982b401c
+
+PR:
+#7
+
+base:
+Genesis
+
+base SHA:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+draft:
+true
+
+merged:
+false
+```
+
+Drive publisher rechecked:
+
+```text
+MyDrive/Applications/VoxFluxSTT/
+Infrastructure/Runtime/Colab/2026.09.25/
+02. PUBLISH-PHASE-0-DRIVE-MIGRATION-CANDIDATE-1-EXPANDED-REVIEW.ipynb
+
+Drive ID:
+1n10Z6Zr2lPfTl_5hxP8NzYzUtiIP9ucp
+
+bytes:
+17364
+```
+
+Current frontier at context-save time:
+
+```text
+Candidate.1:
+NOT REVIEWED
+
+Critic verdict:
+NONE
+
+expanded review publisher:
+READY_TO_RUN
+
+publisher 02 executed:
+NO
+
+DRY-RUN-002:
+BLOCKED
+
+APPLY:
+BLOCKED
+
+PR #7 merge:
+BLOCKED
+```
+
+Next action in new chat:
+
+```text
+Owner runs Drive notebook 02.
+Then Creator performs Drive readback and sends expanded review to Critic.
+```
