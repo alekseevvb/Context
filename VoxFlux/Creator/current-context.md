@@ -2596,3 +2596,123 @@ BLOCKED pending Critic acceptance
 APPLY:
 BLOCKED
 ```
+
+
+## 33. Candidate.1 expanded review publisher ready on Drive
+
+Critic has NOT reviewed Candidate.1 yet. Current status:
+- DRY-RUN-002 BLOCKED
+- APPLY BLOCKED
+- PR #7 merge BLOCKED
+
+Critic review blockers:
+1. old review surface was one 260 KiB ZIP;
+2. old review base was 3a2c38d..., but merge base is Genesis 698d033...;
+3. context-manager/snapshot retirement needed explicit rationale.
+
+Exact merge/review range now verified:
+
+```text
+base:
+698d033b0bac1161ed393958ee1e97ca9f70f829
+
+candidate:
+82e4b32f53b16a5b86753662bf849c2d982b401c
+
+candidate tree:
+9dbfcd4d25e0dfce82e7c5672f284208753263eb
+
+commits:
+15
+
+changed paths:
+43
+```
+
+The 15 commits include the design/tooling history before the implementation candidate. Expanded review therefore uses Genesis..Candidate, not 3a2c38d..Candidate.
+
+New owner-run publisher:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Runtime/Colab/2026.09.25/
+02. PUBLISH-PHASE-0-DRIVE-MIGRATION-CANDIDATE-1-EXPANDED-REVIEW.ipynb
+```
+
+Drive ID:
+
+```text
+1n10Z6Zr2lPfTl_5hxP8NzYzUtiIP9ucp
+```
+
+Notebook bytes:
+
+```text
+17364
+```
+
+Notebook SHA-256:
+
+```text
+3ae2550c57df6e923b8fddc9b72579077bf5dce04f6592a95111bf12e4733920
+```
+
+Drive raw readback matches exact SHA-256.
+
+Publisher is fail-closed and pins:
+- repository alekseevvb/VoxFluxSTT
+- Genesis base 698d033...
+- Candidate 82e4b32...
+- tree 9dbfcd4...
+- expected commit count 15
+- expected changed-path count 43
+
+It requires exact classification of all 43 changed paths into 8 themes:
+1. paths
+2. notebooks
+3. cache
+4. AI tree and UAT
+5. context retirement
+6. tests
+7. CI
+8. documentation
+
+Any unclassified or duplicated path => FAIL.
+
+Output target:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Review/
+P0-Migration/Candidate-001/
+82e4b32f53b16a5b86753662bf849c2d982b401c/
+Expanded-Review-Genesis-698d033/
+```
+
+Generated review files:
+- REVIEW.md
+- COMMITS.md
+- CHANGED-FILES.md
+- MANIFEST.json
+- SHA256SUMS
+- topical patch files under patches/
+
+Every output file must be < 40,000 bytes. Patch chunks split only at line boundaries.
+
+REVIEW.md explicitly explains context retirement:
+- Creator durable private context is in external alekseevvb/Context at VoxFlux/Creator;
+- Critic operational state is AI/Critic/Context on Drive;
+- messages are Creator/Message and Critic/Message;
+- review evidence/verdicts are AI/Review;
+- therefore no repository-side replacement exists for make save-context/load-context;
+- deleted snapshots/manage_context.py remain recoverable from Git history including Genesis 698d033 and earlier commits.
+
+Publisher performs:
+- no runtime/model/UAT-data migration;
+- no DRY-RUN-002;
+- no APPLY;
+- no PR merge.
+
+Next:
+Owner runs Drive notebook 02.
+Then Creator reads back Expanded-Review files/hashes and hands the expanded review surface to Critic.
