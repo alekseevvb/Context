@@ -2,9 +2,21 @@
 
 Восстанови текущий Creator-контекст проекта **VoxFlux / VoxFluxSTT**.
 
-Работай как **Творец (Creator)** и отвечай только по-русски.
+Работай в роли **Творца (Creator)**.
 
-Контекст:
+Отвечай только на русском языке.
+
+Каждый substantive ответ должен содержать:
+
+```text
+Роль
+Время обработки сообщения
+Время ответа
+```
+
+При приближении context pressure заранее выдай копируемое предупреждение в fenced block со знаком `⚠️`.
+
+## Context repository
 
 ```text
 repo:
@@ -21,189 +33,223 @@ VoxFlux/Creator/
 
 ```text
 1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-24-p01-candidate2-routes-awaiting-critic.md
-3. VoxFlux/Creator/decision-2026-09-24-post-smoke-path-module-refactor.md
-4. VoxFlux/Creator/requirements-2026-09-24-post-smoke-runtime-output.md
-5. VoxFlux/Creator/recovery-prompt.md
+2. VoxFlux/Creator/checkpoint-2026-09-25-candidate1-expanded-review-publisher-ready.md
+3. VoxFlux/Creator/checkpoint-2026-09-25-phase0-drive-migration-candidate1-ready-for-critic.md
+4. VoxFlux/Creator/recovery-prompt.md
 ```
 
-Затем обязательно сверь live Git state:
+Более старые checkpoints используй только как историю, если они не противоречат перечисленным выше controlling files.
+
+## Code repository
+
+После восстановления контекста обязательно сверь live state:
 
 ```text
-code repo:
+repo:
 alekseevvb/VoxFluxSTT
 
-Genesis expected minimum:
+accepted Genesis:
 698d033b0bac1161ed393958ee1e97ca9f70f829
 
-current P0.1 branch:
-phase-0-p01-route-tree
+current candidate branch:
+phase-0-drive-migration-candidate-1
 
-P0.1 Candidate.2 expected:
-be27c086265d23c43d07e7b160542bad8b18cf32
+expected candidate:
+82e4b32f53b16a5b86753662bf849c2d982b401c
 
-tree:
-5596a5ce35e07f469ae984b0ba64e444423aecd5
-
-draft PR:
-https://github.com/alekseevvb/VoxFluxSTT/pull/5
-```
-
-Historical P0.1 Candidate.1:
-
-```text
-commit:
-863b104e752a03c80abd54abfa9e8b0220166f9d
+expected tree:
+9dbfcd4d25e0dfce82e7c5672f284208753263eb
 
 PR:
-#4 CLOSED
+#7
 
-status:
-SUPERSEDED / HISTORICAL
+PR base:
+Genesis / 698d033b0bac1161ed393958ee1e97ca9f70f829
+
+PR state:
+draft, open, NOT merged
 ```
 
-Do not merge Candidate.1.
+Если live branch уже продвинулся, не откатывай автоматически. Сначала выясни причину и прочитай более новое durable evidence.
 
-P0.0 state:
+## Final structure verdict
 
 ```text
-CLOSED
+DRIVE-TARGET-LAYOUT v2
+READY_WITH_CONDITIONS
+```
 
-durable verdict:
-CRITIC-VERDICT-P0.0-smoke.md
+Структура заморожена.
+
+B1:
+- новый Colab root уже должен быть в Git-кандидате:
+  `/content/drive/MyDrive/VoxFluxSTT/Colab`;
+- Whisper использует explicit `download_root`;
+- VoxFlux не выставляет project-level `XDG_CACHE_HOME`.
+
+B2:
+- stale Class-A определяется через commit из предыдущего root `IDENTITY.json`;
+- первая синхронизация без IDENTITY => stale set empty;
+- invalid/unresolvable IDENTITY => FAIL CLOSED.
+
+## Current Critic status
+
+**Candidate.1 ещё не проверен. Вердикта нет.**
+
+Блокировки:
+
+```text
+DRY-RUN-002:
+BLOCKED
+
+APPLY:
+BLOCKED
+
+PR #7 merge:
+BLOCKED
+```
+
+Критик потребовал expanded review surface, потому что предыдущий 260 KiB ZIP не подходит для удобной проверки.
+
+## Correct review range
+
+Используй только:
+
+```text
+698d033b0bac1161ed393958ee1e97ca9f70f829
+..
+82e4b32f53b16a5b86753662bf849c2d982b401c
+```
+
+Ожидается:
+
+```text
+commit count:
+15
+
+changed path count:
+43
+```
+
+Предыдущий review range от `3a2c38d...` является недостаточным для merge-review и не является controlling.
+
+## Expanded review publisher
+
+Owner-run notebook уже физически лежит на Google Drive:
+
+```text
+MyDrive/Applications/VoxFluxSTT/
+Infrastructure/Runtime/Colab/2026.09.25/
+02. PUBLISH-PHASE-0-DRIVE-MIGRATION-CANDIDATE-1-EXPANDED-REVIEW.ipynb
+```
 
 Drive ID:
-1wZ9WrJFpb9vpicyGFflbMCjBJcU-NXcI
-
-verdict:
-PASS
-```
-
-Current path architecture:
 
 ```text
-core/paths/
-├── __init__.py
-├── routes.py   -> Routes
-└── manager.py  -> Manager
+1n10Z6Zr2lPfTl_5hxP8NzYzUtiIP9ucp
 ```
 
-Routes uses:
+Bytes:
 
 ```text
-(parent_index, current_index, sign)
+17364
 ```
-
-Tree:
-
-```text
-RADIX
-├── INPUT
-├── OUTPUT
-└── INFRASTRUCTURE
-    ├── MODELS
-    │   ├── MODELS_WHISPER
-    │   └── MODELS_PARAKEET
-    └── LIBRARIES
-        └── AUXILIARY
-```
-
-Compatibility aliases:
-
-```python
-Layout = Routes
-DeploymentPaths = Routes
-DirectoryManager = Manager
-```
-
-Do not recreate a separate concrete Layout class unless explicitly reauthorized.
-
-Candidate.2 verification:
-
-```text
-P0 Path Contract Gates:
-run 36015894350
-
-Python 3.10:
-PASS
-
-Python 3.12:
-PASS
-
-P0.1 Model Cache Review:
-run 36015894097
-
-verify-py3.12:
-PASS
-
-p01-review-package:
-PASS
-
-pytest:
-63 passed
-
-Ruff:
-PASS
-
-mypy:
-0 issues / 26 source files
-
-repository SHA256:
-PASS
-```
-
-Formal review package:
-
-```text
-Drive folder:
-Applications/VoxFluxSTT-Evidence/P0.1/Candidate-02/
-be27c086265d23c43d07e7b160542bad8b18cf32/review/
-
-folder ID:
-1mdGEytwpO5TQ-iAioeliSEX1yTYSnHC7
-
-file:
-P0.1-model-cache-review-package.zip
-
-Drive file ID:
-1e18z1IhUIb6mgR1i23Nds88sltzzS-nr
-
-size:
-219375 bytes
 
 SHA-256:
-0ffbcf7c68a5930f65813d3fe7227e3988c29d1e222f0c46e9b93a18ad80ac0f
-```
-
-Current Critic verdict for P0.1 Candidate.2:
 
 ```text
-PENDING
+3ae2550c57df6e923b8fddc9b72579077bf5dce04f6592a95111bf12e4733920
 ```
 
-До durable Critic READY строго запрещено:
+**На момент checkpoint этот notebook ещё не запускался.**
+
+После первого успешного запуска он становится immutable. Любая правка после запуска идёт как notebook `03`.
+
+## Expected expanded review output
 
 ```text
-- merge Candidate.2 to Genesis;
-- P0.1 Drive code sync;
-- Models/whisper -> Models/Whisper weight migration;
-- Models/pip deletion.
+MyDrive/Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Review/
+P0-Migration/Candidate-001/
+82e4b32f53b16a5b86753662bf849c2d982b401c/
+Expanded-Review-Genesis-698d033/
 ```
 
-Drive runtime remains pre-migration.
-
-If live Context/Genesis/P0.1 branch advanced, do not roll back. Treat this checkpoint as minimum known state and reconcile all newer durable evidence first.
-
-После восстановления кратко выведи:
+Expected files:
 
 ```text
-Роль
-Context HEAD
-Genesis HEAD
-P0.1 branch HEAD
-P0.1 Candidate identity
-Routes architecture
-current Critic verdict
-Drive migration state
-следующее разрешённое действие
+REVIEW.md
+COMMITS.md
+CHANGED-FILES.md
+MANIFEST.json
+SHA256SUMS
+patches/
 ```
+
+Topical patch groups:
+
+```text
+01 paths
+02 notebooks
+03 cache
+04 AI-tree-and-UAT
+05 context-retirement
+06 tests
+07 CI
+08 documentation
+```
+
+Каждый generated review file должен быть меньше 40,000 bytes.
+
+## Context retirement rationale
+
+Критик потребовал объяснить лишний scope.
+
+Controlling rationale:
+
+```text
+Creator durable private context
+→ external repo alekseevvb/Context
+→ VoxFlux/Creator/
+
+Critic operational state
+→ Infrastructure/Environments/AI/Critic/Context/ on Drive
+
+Messages
+→ Creator/Message/
+→ Critic/Message/
+
+Review evidence/verdicts
+→ AI/Review/
+```
+
+Поэтому:
+
+```text
+make save-context
+make load-context
+Infrastructure/Runtime/Context/manage_context.py
+```
+
+не получают repository-side replacement.
+
+Удалённые snapshots и tooling остаются восстанавливаемыми из Git history, включая Genesis и более ранние commits.
+
+## Next action
+
+Следующий шаг **только один**:
+
+```text
+Owner runs notebook 02.
+```
+
+После его выполнения:
+
+1. прочитай published expanded-review files с Drive;
+2. сверяй MANIFEST/SHA256SUMS;
+3. подтверди 15 commits / 43 paths;
+4. подтверди все patch groups;
+5. создай immutable Creator->Critic message;
+6. жди независимый Critic verdict.
+
+До этого не запускать DRY-RUN-002, APPLY и не merge PR #7.
