@@ -2104,3 +2104,260 @@ d04c6c6e8e89a1454c23860247b4fd925a396f23e437c3ecfa6b9098e97eaf89
 
 Next:
 Critic reads the published review package and writes the final authoritative structural verdict under Review/Architecture/.../CRITIC-VERDICT.md.
+
+
+## 32. Final structural verdict received; Phase-0 migration Candidate-001 prepared
+
+Critic final structural verdict:
+
+```text
+DRIVE-TARGET-LAYOUT v2
+READY_WITH_CONDITIONS
+```
+
+The structure is frozen.
+
+Critic blocking conditions carried into implementation candidate:
+
+```text
+B1
+Before migration, the Git candidate must already contain:
+- new Colab deployment root:
+  /content/drive/MyDrive/VoxFluxSTT/Colab
+- P0.1 Whisper cache correction using explicit download_root
+- no VoxFlux project XDG_CACHE_HOME override
+
+B2
+Stale Class-A files are defined from the commit recorded in the existing root IDENTITY.json:
+tracked(previous IDENTITY commit) - tracked(new commit)
+If IDENTITY.json does not exist on first sync, stale_A = {}
+```
+
+Additional accepted corrections:
+- DRIVE-TARGET-LAYOUT §3.1 example uses VoxFluxSTT;
+- current legacy Parakeet contains only placeholder state and is not treated as runtime model data move;
+- notebook folder date is project-local (Asia/Jerusalem);
+- Message filenames use UTC Z timestamps.
+
+### Single pre-migration Git candidate
+
+Repository:
+
+```text
+alekseevvb/VoxFluxSTT
+```
+
+Branch:
+
+```text
+phase-0-drive-migration-candidate-1
+```
+
+Draft PR:
+
+```text
+#7
+```
+
+Accepted Genesis base:
+
+```text
+698d033b0bac1161ed393958ee1e97ca9f70f829
+```
+
+Design parent:
+
+```text
+3a2c38d0d659901cd726f6f7da6a289539e4b6ae
+```
+
+Candidate commit:
+
+```text
+b57f87476d799e1539661ceeefe3197eec547ce2
+```
+
+Candidate tree:
+
+```text
+0f5062fa80f9b066309f73e27702ed4cb791b691
+```
+
+Candidate shape:
+
+```text
+commits after design parent:
+1
+
+changed paths after design parent:
+39
+```
+
+The prior micro-commit working history was squashed without changing the final tree.
+
+### Candidate content
+
+Implemented:
+- final AI tree:
+  - Infrastructure/Environments/AI/Creator/Message/
+  - Infrastructure/Environments/AI/Critic/Context/
+  - Infrastructure/Environments/AI/Critic/Message/
+  - Infrastructure/Environments/AI/Review/
+- legacy generic Infrastructure/Environments/AI/Context snapshots removed from active tree;
+- legacy in-repository Runtime/Context/manage_context.py retired;
+- final public deployment path API:
+  - Routes
+  - Manager
+- no compatibility aliases Layout / DeploymentPaths / DirectoryManager;
+- Routes use symbolic parents, not numeric indexes;
+- Colab deployment root changed to:
+  /content/drive/MyDrive/VoxFluxSTT/Colab
+- Whisper provider receives:
+  download_root=<configured Infrastructure/Models/Whisper>
+- VoxFlux no longer sets project XDG_CACHE_HOME;
+- Runtime/UAT/Data split added;
+- B1/B2 corrections incorporated into DRIVE-TARGET-LAYOUT.md;
+- README/config/roadmap updated to identify the controlling current contract;
+- already executed notebook:
+  Infrastructure/Runtime/Colab/2026.09.25/01. PUBLISH-DRIVE-TARGET-LAYOUT-V2-001.ipynb
+  remained byte-identical with blob:
+  6af0824d7fd205e19f0d679fd1eb8a4c771a9b7d
+
+### CI
+
+Exact final candidate workflow run:
+
+```text
+36075442500
+```
+
+Conclusion:
+
+```text
+SUCCESS
+```
+
+Python 3.10:
+- pytest PASS
+- Ruff PASS
+- Mypy PASS
+- SHA256 PASS
+
+Python 3.12:
+- pytest PASS
+- Ruff PASS
+- Mypy PASS
+- SHA256 PASS
+
+formal-review-package:
+- PASS
+
+An earlier run failed fail-closed at PATH-15 because the allowlist still referenced the old single-file paths.py owner and omitted explicit WhisperTranscriber(models_dir).
+That was corrected before the final candidate identity.
+
+### Drive review package
+
+Path:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Review/
+P0-Migration/Candidate-001/
+b57f87476d799e1539661ceeefe3197eec547ce2/
+```
+
+Drive folder ID:
+
+```text
+1dQR9sWLiRhlFP-VirLGgKlpGDvaFdXQ5
+```
+
+Objects:
+
+```text
+CANDIDATE.md
+Drive ID:
+1dAxbqfWBYt1j1lIY9fkw1SbOIo1h6knM
+SHA-256:
+6d5ea9d044ec0b6b0f20a8352d1bf0cf7b985279dfd9c69cf007fcd3ef00772a
+
+MANIFEST.json
+Drive ID:
+16OJYcK4u6CZiuxhKJjpUNRSEstSAjK-M
+SHA-256:
+8620b8a4c40fd42c09d2330793077a8102c841a570707e0338cfa012a920e7fa
+
+SHA256SUMS
+Drive ID:
+1sQ9x1HvLnX1hDYwGjbWQQw-xUq2E4Oei
+SHA-256:
+33baa9f17fe63bc08fb418cc5eca5193567a52153cf2a8904932f601fa29322a
+
+ci-review-package.zip
+Drive ID:
+1vVLla8nlPURzS0sGJFr9-USUl8bDh-Vz
+SHA-256:
+8c71440c0fabdab391f9277ef43a54f579881858a31e0489ad8ab988666a9855
+
+ci-gates-py3.10.zip
+Drive ID:
+1J2f5heW3-OYXiRfXDeqS4cgoaTgqioZt
+SHA-256:
+e94cc76d8bdf4b900a520cd493eb5fca42452b40d0b0a67961eb3dc93b81924f
+
+ci-gates-py3.12.zip
+Drive ID:
+1RXXs5mCpqCIAIxLhYpGLGZtoLVemvcCX
+SHA-256:
+553795795a10332c19768b9cc0cceb930d5e97ca730aae405f11f0278317c56f
+```
+
+Important:
+the CI ZIP artifact names retain inherited historical P0 workflow naming.
+They are evidence payload names only.
+Controlling candidate identity is CANDIDATE.md + MANIFEST.json.
+
+### Creator -> Critic handoff
+
+Immutable message:
+
+```text
+Applications/VoxFluxSTT/
+Infrastructure/Environments/AI/Creator/Message/
+2026-09-25T00-04-26Z__P0-Migration-Candidate-001-ready-for-review.md
+```
+
+Drive ID:
+
+```text
+1-W6e8KtXEeAP35IgbQ_JWHt-6aAm2TOv
+```
+
+SHA-256:
+
+```text
+00a78eb4699151ad4dbcb55f4848589e4d698ad44ae5dfa78fac19bee63b29c6
+```
+
+### Current gate
+
+```text
+P0-Migration Candidate-001
+READY_FOR_INDEPENDENT_CRITIC_REVIEW
+```
+
+Not authorized:
+- merge PR #7;
+- DRY-RUN-002 execution;
+- APPLY;
+- new-root runtime/data moves;
+- model relocation;
+- Input/Output move;
+- UAT data move;
+- historical review/evidence move;
+- backup move;
+- full Drive mirror to MyDrive/VoxFluxSTT.
+
+Next:
+Critic independently reviews exact commit b57f87476d799e1539661ceeefe3197eec547ce2 and Drive review package.
+Only after acceptance prepare/run DRY-RUN-002.
