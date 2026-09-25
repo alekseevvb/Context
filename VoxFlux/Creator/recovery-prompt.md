@@ -32,236 +32,136 @@ VoxFlux/Creator/
 Сначала полностью прочитай строго по порядку:
 
 ```text
-1. VoxFlux/Creator/Context/2026.25.09/03. 04-06-03. Candidate1 expanded review context save/CONTEXT.md
-2. VoxFlux/Creator/Context/2026.25.09/02. 04-05-28. Candidate1 expanded review publisher ready/CONTEXT.md
-3. VoxFlux/Creator/Context/2026.25.09/01. 03-12-18. Phase0 Drive migration Candidate1 ready for Critic/CONTEXT.md
-4. VoxFlux/Creator/Context/README.md
-5. VoxFlux/Creator/recovery-prompt.md
+1. VoxFlux/Creator/Context/2026.25.09/04. 19-52-56. Environment PR14 green and P0.3 probe v004 pending/CONTEXT.md
+2. VoxFlux/Creator/Context/2026.25.09/03. 04-06-03. Candidate1 expanded review context save/CONTEXT.md
+3. VoxFlux/Creator/Context/README.md
+4. VoxFlux/Creator/recovery-prompt.md
 ```
 
-Более старые checkpoints используй только как историю, если они не противоречат перечисленным выше controlling files.
+Checkpoint `04` является controlling snapshot. Более старые checkpoints используй только как историю там, где они не противоречат checkpoint `04`.
 
-## Code repository
+## Live code state to verify immediately
 
-После восстановления контекста обязательно сверь live state:
+Repository:
 
 ```text
-repo:
 alekseevvb/VoxFluxSTT
-
-accepted Genesis:
-698d033b0bac1161ed393958ee1e97ca9f70f829
-
-current candidate branch:
-phase-0-drive-migration-candidate-1
-
-expected candidate:
-82e4b32f53b16a5b86753662bf849c2d982b401c
-
-expected tree:
-9dbfcd4d25e0dfce82e7c5672f284208753263eb
-
-PR:
-#7
-
-PR base:
-Genesis / 698d033b0bac1161ed393958ee1e97ca9f70f829
-
-PR state:
-draft, open, NOT merged
 ```
 
-Если live branch уже продвинулся, не откатывай автоматически. Сначала выясни причину и прочитай более новое durable evidence.
-
-## Final structure verdict
+Expected save-time Genesis:
 
 ```text
-DRIVE-TARGET-LAYOUT v2
-READY_WITH_CONDITIONS
+Genesis
+1ac03afa5a040148a5842bff938a0ef478f70039
 ```
 
-Структура заморожена.
-
-B1:
-- новый Colab root уже должен быть в Git-кандидате:
-  `/content/drive/MyDrive/VoxFluxSTT/Colab`;
-- Whisper использует explicit `download_root`;
-- VoxFlux не выставляет project-level `XDG_CACHE_HOME`.
-
-B2:
-- stale Class-A определяется через commit из предыдущего root `IDENTITY.json`;
-- первая синхронизация без IDENTITY => stale set empty;
-- invalid/unresolvable IDENTITY => FAIL CLOSED.
-
-## Current Critic status
-
-**Candidate.1 ещё не проверен. Вердикта нет.**
-
-Блокировки:
+Expected active branch:
 
 ```text
-DRY-RUN-002:
-BLOCKED
+phase-0-environment-runtime
 
-APPLY:
-BLOCKED
+HEAD
+a3944a0bd3d9e851c250b354c022f1fdaaa03d9a
 
-PR #7 merge:
-BLOCKED
+tree
+07d28ab85ad3909db497c3b61f50caba8667c5a8
 ```
 
-Критик потребовал expanded review surface, потому что предыдущий 260 KiB ZIP не подходит для удобной проверки.
-
-## Correct review range
-
-Используй только:
+Expected PR:
 
 ```text
-698d033b0bac1161ed393958ee1e97ca9f70f829
-..
-82e4b32f53b16a5b86753662bf849c2d982b401c
+PR #14
+refactor(runtime): centralize notebook lifecycle in Environment
+
+state:
+OPEN
+
+mergeable:
+true
+
+merged:
+false
 ```
 
-Ожидается:
+Expected CI:
 
 ```text
-commit count:
-15
+run:
+36162307065
 
-changed path count:
-43
+gates-py3.10:
+SUCCESS
+
+gates-py3.12:
+SUCCESS
+
+formal-review-package:
+SKIPPED
 ```
 
-Предыдущий review range от `3a2c38d...` является недостаточным для merge-review и не является controlling.
+Если live GitHub продвинулся дальше, не откатывайся: прочитай более новый diff/commits и продолжай от live frontier.
 
-## Expanded review publisher
+## Active task 1 — Environment / PR #14
 
-Owner-run notebook уже физически лежит на Google Drive:
+Owner explicitly required:
+- package `VoxFlux.environment`;
+- OOP/TDD;
+- `Environment` as Facade/GRASP Controller;
+- `RuntimeSession` Strategy;
+- managed cell decorators through `@environment.step(...)`;
+- persistent JSONL START/PASS/FAIL log;
+- on FAIL: persist error + traceback and fsync **before** runtime shutdown;
+- on success: shutdown through the same lifecycle;
+- move path ownership into Environment as `Routes` + `RouteManager`;
+- remove legacy `core.paths` and success-only Colab shutdown adapter;
+- refactor working `Colab/VoxFlux.ipynb` to use Environment/Routes instead of scattered paths.
+
+At save time PR #14 CI is green but **Critic verdict is not yet recorded**.
+
+Next action:
+1. verify live PR #14;
+2. prepare normal review diff/transport for Critic;
+3. obtain one short authoritative Critic verdict;
+4. fix only concrete blockers;
+5. do not merge before PASS/READY.
+
+## Active task 2 — P0.3 speaker diarization
+
+P0.2 is closed as:
+`large-v3 + Silero VAD`.
+
+Speaker labels and the lost short second-speaker reply around 03:09 moved to P0.3.
+
+Canonical probe at save time:
 
 ```text
-MyDrive/Applications/VoxFluxSTT/
-Infrastructure/Runtime/Colab/2026.09.25/
-02. PUBLISH-PHASE-0-DRIVE-MIGRATION-CANDIDATE-1-EXPANDED-REVIEW.ipynb
-```
+P0.3-SPEAKER-DIARIZATION-PROBE-RUN-ME.ipynb
 
 Drive ID:
-
-```text
-1n10Z6Zr2lPfTl_5hxP8NzYzUtiIP9ucp
+1Esx45wQ__fwauHB-ioAIwS4Iqhn5YWhG
 ```
 
-Bytes:
+This is **v004**.
+
+v003 failed before diarization result because pyannote's MP3 chunk seek returned:
 
 ```text
-17364
+158895 samples instead of expected 160000
 ```
 
-SHA-256:
+v004 therefore:
+- decodes the full MP3 once to 16 kHz mono PCM/WAV;
+- passes full in-memory waveform + sample_rate to pyannote;
+- performs full-file diarization;
+- only then inspects 03:00–03:20;
+- reports regular/exclusive detection around 03:09;
+- checks Whisper/environment compatibility.
 
-```text
-3ae2550c57df6e923b8fddc9b72579077bf5dce04f6592a95111bf12e4733920
-```
+At save time v004 has **not yet produced a successful PROBE SUMMARY**.
 
-**На момент checkpoint этот notebook ещё не запускался.**
+Do not claim whether pyannote sees the woman until actual v004 output exists.
 
-После первого успешного запуска он становится immutable. Любая правка после запуска идёт как notebook `03`.
+## Priority after PR #14
 
-## Expected expanded review output
+After Environment is reviewed/merged/synchronized, immediately return to P0.3. Do not start another unrelated infrastructure project.
 
-```text
-MyDrive/Applications/VoxFluxSTT/
-Infrastructure/Environments/AI/Review/
-P0-Migration/Candidate-001/
-82e4b32f53b16a5b86753662bf849c2d982b401c/
-Expanded-Review-Genesis-698d033/
-```
-
-Expected files:
-
-```text
-REVIEW.md
-COMMITS.md
-CHANGED-FILES.md
-MANIFEST.json
-SHA256SUMS
-patches/
-```
-
-Topical patch groups:
-
-```text
-01 paths
-02 notebooks
-03 cache
-04 AI-tree-and-UAT
-05 context-retirement
-06 tests
-07 CI
-08 documentation
-```
-
-Каждый generated review file должен быть меньше 40,000 bytes.
-
-## Context retirement rationale
-
-Критик потребовал объяснить лишний scope.
-
-Controlling rationale:
-
-```text
-Creator durable private context
-→ external repo alekseevvb/Context
-→ VoxFlux/Creator/
-
-Critic operational state
-→ Infrastructure/Environments/AI/Critic/Context/ on Drive
-
-Messages
-→ Creator/Message/
-→ Critic/Message/
-
-Review evidence/verdicts
-→ AI/Review/
-```
-
-Поэтому:
-
-```text
-make save-context
-make load-context
-Infrastructure/Runtime/Context/manage_context.py
-```
-
-не получают repository-side replacement.
-
-Удалённые snapshots и tooling остаются восстанавливаемыми из Git history, включая Genesis и более ранние commits.
-
-## Next action
-
-Следующий шаг **только один**:
-
-```text
-Owner runs notebook 02.
-```
-
-После его выполнения:
-
-1. прочитай published expanded-review files с Drive;
-2. сверяй MANIFEST/SHA256SUMS;
-3. подтверди 15 commits / 43 paths;
-4. подтверди все patch groups;
-5. создай immutable Creator->Critic message;
-6. жди независимый Critic verdict.
-
-До этого не запускать DRY-RUN-002, APPLY и не merge PR #7.
-
-
-## Creator context snapshot convention
-
-All Creator context saves now use:
-
-```text
-VoxFlux/Creator/Context/YYYY.DD.MM/NN. HH-mm-ss. Topic/CONTEXT.md
-```
-
-The timestamp is project-local Asia/Jerusalem time. `NN` is chronological within the date. Saved snapshots are immutable; every new save gets a new directory.
