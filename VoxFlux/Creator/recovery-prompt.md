@@ -32,10 +32,11 @@ VoxFlux/Creator/
 Сначала полностью прочитай строго по порядку:
 
 ```text
-1. VoxFlux/Creator/current-context.md
-2. VoxFlux/Creator/checkpoint-2026-09-25-candidate1-expanded-review-publisher-ready.md
-3. VoxFlux/Creator/checkpoint-2026-09-25-phase0-drive-migration-candidate1-ready-for-critic.md
-4. VoxFlux/Creator/recovery-prompt.md
+1. VoxFlux/Creator/Context/2026.25.09/03. 04-06-03. Candidate1 expanded review context save/CONTEXT.md
+2. VoxFlux/Creator/Context/2026.25.09/02. 04-05-28. Candidate1 expanded review publisher ready/CONTEXT.md
+3. VoxFlux/Creator/Context/2026.25.09/01. 03-12-18. Phase0 Drive migration Candidate1 ready for Critic/CONTEXT.md
+4. VoxFlux/Creator/Context/README.md
+5. VoxFlux/Creator/recovery-prompt.md
 ```
 
 Более старые checkpoints используй только как историю, если они не противоречат перечисленным выше controlling files.
@@ -253,3 +254,14 @@ Owner runs notebook 02.
 6. жди независимый Critic verdict.
 
 До этого не запускать DRY-RUN-002, APPLY и не merge PR #7.
+
+
+## Creator context snapshot convention
+
+All Creator context saves now use:
+
+```text
+VoxFlux/Creator/Context/YYYY.DD.MM/NN. HH-mm-ss. Topic/CONTEXT.md
+```
+
+The timestamp is project-local Asia/Jerusalem time. `NN` is chronological within the date. Saved snapshots are immutable; every new save gets a new directory.

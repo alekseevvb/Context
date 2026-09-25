@@ -467,8 +467,8 @@ Phase-0 UAT checks include:
 
 Read in this order:
 
-1. `VoxFlux/Creator/current-context.md`
-2. newest `VoxFlux/Creator/checkpoint-*.md`
+1. `VoxFlux/Creator/Context/2026.25.09/03. 04-06-03. Candidate1 expanded review context save/CONTEXT.md`
+2. newest prior snapshot under `VoxFlux/Creator/Context/YYYY.DD.MM/NN. HH-mm-ss. Topic/CONTEXT.md`
 3. `VoxFlux/Creator/recovery-prompt.md`
 4. live `alekseevvb/VoxFluxSTT` branch identities
 5. canonical Drive roadmap v0.5
@@ -2724,7 +2724,7 @@ Controlling new-chat checkpoint:
 
 ```text
 VoxFlux/Creator/
-checkpoint-2026-09-25-candidate1-expanded-review-publisher-ready.md
+Context/2026.25.09/02. 04-05-28. Candidate1 expanded review publisher ready/CONTEXT.md
 ```
 
 Recovery prompt updated:
@@ -2805,4 +2805,38 @@ Next action in new chat:
 ```text
 Owner runs Drive notebook 02.
 Then Creator performs Drive readback and sends expanded review to Critic.
+```
+
+
+## 35. Creator context storage convention normalized
+
+Creator context snapshots now live under:
+
+```text
+VoxFlux/Creator/Context/
+└── YYYY.DD.MM/
+    └── NN. HH-mm-ss. Topic/
+        └── CONTEXT.md
+```
+
+Rules:
+- directory date/time uses project-local Asia/Jerusalem time;
+- date format is intentionally YYYY.DD.MM;
+- NN is a two-digit chronological sequence within that local date;
+- every saved snapshot uses the canonical filename CONTEXT.md;
+- once a snapshot is committed it is immutable;
+- a later save creates a new numbered directory instead of editing an older snapshot;
+- recovery-prompt.md remains outside Context/ because it is a live recovery instruction, not a snapshot;
+- decision-*, requirements-* and evidence/ remain outside Context/ as durable supporting material.
+
+Historical checkpoint files and the former current-context.md were migrated to this hierarchy in commit:
+
+```text
+4c57f24b5c6985925a499f3f4291676857d253fd
+```
+
+The controlling latest snapshot is this file:
+
+```text
+VoxFlux/Creator/Context/2026.25.09/03. 04-06-03. Candidate1 expanded review context save/CONTEXT.md
 ```
